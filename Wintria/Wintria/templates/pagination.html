@@ -1,0 +1,48 @@
+{% if page.has_previous %}
+   {% if unpaged_url %}
+	    <li><a href="{{ unpaged_url }}&page={{ page.previous_page_number }}">Prev</a></li>
+   {% else %}
+        <li><a href="?page={{ page.previous_page_number }}">Prev</a></li>
+   {% endif %}
+{% endif %}
+
+{% for pnum in begin %}
+    {% if unpaged_url %}
+        <li {% if objects.number == pnum %} class="active"{% endif %}><a href="{{ unpaged_url }}&page={{ pnum }}">{{ pnum }}</a></li>
+    {% else %}
+        <li {% if objects.number == pnum %} class="active"{% endif %}><a href="?page={{ pnum }}">{{ pnum }}</a></li>
+    {% endif %}
+
+{% endfor %}
+
+{% if middle %}
+    <li><a href="#"><strong>...</strong></a></li>
+
+    {% for pnum in middle %}
+        {% if unpaged_url %}
+            <li {% if objects.number == pnum %} class="active"{% endif %}><a href="{{ unpaged_url }}&page={{ pnum }}">{{ pnum }}</a></li>
+        {% else %}
+            <li {% if objects.number == pnum %} class="active"{% endif %}><a href="?page={{ pnum }}">{{ pnum }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if end %}
+    <li><a href="#"><strong>...</strong></a></li>
+
+    {% for pnum in end %}
+        {% if unpaged_url %}
+            <li {% if objects.number == pnum %} class="active"{% endif %}><a href="{{ unpaged_url }}&page={{ pnum }}">{{ pnum }}</a></li>
+        {% else %}
+            <li {% if objects.number == pnum %} class="active"{% endif %}><a href="?page={{ pnum }}">{{ pnum }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if page.has_next %}
+    {% if unpaged_url %}
+        <li><a href="{{ unpaged_url }}&page={{ page.next_page_number }}">Next</a></li>
+    {% else %}
+        <li><a href="?page={{ page.next_page_number }}">Next</a></li>
+    {% endif %}
+{% endif %}`

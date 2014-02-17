@@ -1,0 +1,29 @@
+*.pyc
+
+bin
+dist
+build
+
+# Only exclude the lib directory from our top level. We have other
+# lib directories with useful code, bad naming convention, I know :)
+/lib
+
+### hide our application settings ###
+settings.py
+
+### pycharm stuff
+.idea
+.DS_Store
+
+### some of my logs are badly named ###
+*.log
+*log.txt
+
+### hide useless data ###
+apache2
+*.pem
+autocomplete_static/autocomplete/*
+logo_static/logobank/*
+logo_static/logo_thumbs/*
+misc/sphinx/sphinx_indices/*
+misc/Packages

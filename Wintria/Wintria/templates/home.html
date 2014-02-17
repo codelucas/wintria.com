@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load article_extras %}
+
+{% block title %}Meet Wintria.{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block styles %}
+<style>
+    html, body {
+        height: 100%;
+        margin-top: 0;
+    }
+    @media all and (max-width: 620px) {
+        .row-fluid input[type="text"] {
+            width:190px;
+            margin-top:2px;
+        }
+    }
+    @media all and (min-width: 621px) {
+        .row-fluid input[type="text"] {
+            width:500px;
+            margin-top:2px;
+        }
+    }
+    .tt-hint {
+      color: #999;
+      left:-1px !important;
+      font-size:14px !important;
+      height:19px !important;
+    }
+    @media all and (min-width: 621px) {
+    .tt-dropdown-menu {
+      width: 518px;
+      margin-top: 12px;
+      padding: 5px 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      -webkit-border-radius: 8px;
+         -moz-border-radius: 8px;
+              border-radius: 8px;
+      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+         -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+              box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+    }
+    @media all and (max-width: 620px) {
+    .tt-dropdown-menu {
+      width: 225px;
+      margin-top: 12px;
+      padding: 5px 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      -webkit-border-radius: 8px;
+         -moz-border-radius: 8px;
+              border-radius: 8px;
+      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+         -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+              box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+    }
+
+    .tt-suggestion {
+      padding: 3px 20px;
+      font-size: 20px;
+      line-height: 28px;
+      text-align: left;
+    }
+    @media all and (min-width: 621px) {
+        #query_bar {
+            font-size:14px;
+            line-height:30px;
+            border:1px #d9d9d9 solid;
+            height:23px;
+            width:500px;
+            padding-right:50px;
+            border-top:1px #c0c0c0 solid;
+            border-radius: 0 0 0 0;
+            margin-left:-1px;
+        }
+    }
+    @media all and (max-width: 620px) {
+        #query_bar {
+            font-size:14px;
+            line-height:30px;
+            border:1px #d9d9d9 solid;
+            height:23px;
+            width:190px;
+            padding-right:50px;
+            border-top:1px #c0c0c0 solid;
+            border-radius: 0 0 0 0;
+            margin-left:-1px;
+        }
+    }
+    #query_bar:hover {
+        border:1px #8e8e8e solid;
+    }
+    #query_bar:focus, #query_bar:active {
+        border:1px #1e96d9 solid;
+    }
+</style>
+{% endblock %}
+
+{% block nav_Bar %}
+{% endblock %}
+
+{% block splash_attrs %}style="overflow:hidden;" onload="focus_input()"{% endblock %}
+
+{% block content %}
+    {% block query_bar %}
+    {% endblock %}
+	<div class="hero-unit" style="background-image: url({{ root_url }}/static/images/laguna_sunset.jpg);padding:35px;
+	    text-align:center;position:relative;height:1200px;background-repeat: no-repeat;background-color:
+            #5e5e60;background-position: center top;">
+
+        <h2 style="display:inline;position:absolute;margin-top:-30px;right:4px;font-size:17px;color:#000;font-weight:200;">
+            1M+ articles indexed and growing!
+        </h2>
+
+		<div style="color:#fff;margin-top:150px;position:relative;">
+            <span style="display:inline;font-weight:500;color:#000;font-size:90px;">Wintria</span>
+            <br>
+            <span style="color:#000;font-size:27px">
+                Explore the present.</span>
+            <!--
+            <h2 style="display:inline;color:#000;font-weight:200;">, let's </h2><h2 style="display:inline;color:#000;font-weight:200;">simplify
+                </h2><h2 style="color:#000;font-weight:200;display:inline;"> your news</h2>-->
+        </div>
+
+        <div class="row-fluid" style="margin-top:10px;margin-bottom:-20px;">
+
+            <div class="row-fluid">
+
+               <form id="splash_input" action="{{ root_url }}/search/" method="get">
+
+                <div class="main_dropdown input-append" style="margin-bottom:0;position:relative;">
+
+                  <!--<input data-provide="typeahead" class="typeahead" id="appendedInputButton-02"
+                         type="text" name="tags" style="font-size:22px;line-height:50px;
+                        height:60px;width:450px;border:0px;" placeholder="what are you interested in?"/>
+                    -->
+                      <input data-provide="typeahead" class="typeahead" id="query_bar"
+                         type="text" name="query" placeholder="" autofocus="autofocus">
+
+                    <!--<i class="icon-search" style="right:0;top:2px;position:absolute;height:41px;
+                        width:45px;color:#000;background-color:#fff;font-size:24px !important;line-height:38px;"></i>-->
+
+                    <button class="btn btn-small" onclick="fire_form()" style="background:transparent;position:absolute;right:-2px;
+                            height:0!important;width:0!important;">
+                      <span class="fui-search" onclick="fire_form()" style="right:0;top:2px;position:absolute;height:40px;
+                         width:45px;color:#000;background-color:#fff;font-size:16px !important;
+                         line-height:38px;margin-right:2px;">
+                      </span>
+                    </button>
+
+                    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;">
+
+                <!--
+                  <button class="btn btn-large" style="height:78px;margin-top:2px;background-color:#000;display:none;"
+                          type="submit"><span class="fui-search"></span></button>-->
+                </div>
+               <br>
+
+               <div style="margin-top:8px;"></div>
+               <span style="color:#000;">
+                   {% if trending %}
+                       {% for t in trending %}
+                            <a style="color:#000;" href="{{ rootURL }}/search/?query={{ t }}">{{ t }}</a> {% if not forloop.last %}&nbsp; |&nbsp;  {% endif %}
+                       {% endfor %}
+                   {% else %}
+                       Hyperloop  |  Elon Musk  |  Ashton Kutcher  |  Obama  |  AP
+                   {% endif %}
+               </span>
+
+              </form>
+
+            </div>
+        </div>
+
+        <div class="spacer" style="margin-top:20px;"></div>
+
+        <div class="row-fluid" style="">
+	<!--
+        <div class="span4" style="float:none;margin:0 auto;">
+            <div class="span3">
+                <a href="/about/">
+                    <div class="row-fluid"><img style="height:55px;" src="{% static "images/about_us.png" %}"/></div>
+                    <span style="color:#000;font-size:23px;font-weight: 200;">
+                        <br>
+                        <span>
+                        <p style="font-size:17px;font-weight: 200;color:#000;margin-top:-25px;">
+                            About Us
+                        </p>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="/story/">
+                <div class="row-fluid"><img style="height:55px;" src="{% static "images/story.png" %}"/></div>
+                <span style="color:#000;font-size:23px;font-weight: 200;">
+                    <br>
+                    <span>
+                    <p style="font-size:17px;font-weight: 200;color:#000;margin-top:-25px;">
+                        Story
+                    </p>
+                    </span>
+                </span>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="/feedback/">
+                <div class="row-fluid"><img style="height:55px;" src="{% static "images/feedback.png" %}"/></div>
+                <span style="color:#000;font-size:23px;font-weight: 200;">
+                    <br>
+                    <span>
+                    <p style="font-size:17px;font-weight: 200;color:#000;margin-top:-25px;">
+                        Feedback
+                    </p>
+                    </span>
+                </span>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="/2.0/">
+                <div class="row-fluid"><img style="height:55px;" src="{% static "images/wintria_v2.png" %}"/></div>
+                <span style="color:#000;font-size:23px;font-weight: 200;">
+                    <br>
+                    <span>
+                    <p style="font-size:17px;font-weight: 200;color:#000;margin-top:-25px;">
+                        Wintria 2.0
+                    </p>
+                    </span>
+                </span>
+                </a>
+            </div>
+        </div>
+	-->
+        </div>
+
+
+        <!--<h2 style="display:inline;font-size:27px;color:#000;font-weight:200;">
+            designed and engineered in Laguna Beach, California</h2>-->
+        <!--<div class="spacer" style="margin-top:35px;"></div>
+        <h2 style="display:inline;font-size:23px;color:#ffffff;background-color:#626769;font-weight:200;">
+                <a style="color:#fff;" href="http://codelucas.com">Lucas</a> and <a style="color:#fff;"
+                href="http://nithinjilla.com">Nithin</a></h2>-->
+
+
+
+
+    </div>
+        <!--<img src="{ static "images/logo_splash.png" %}" style="margin-left:-40px;"/>-->
+
+        <!--
+		<div class="row-fluid">
+			<div class="span3"></div>
+			<div class="span2"></div>
+
+			<div class="span1">
+				<div class="fb-like" data-href="http://facebook.com/wintrianews" 
+					data-send="false" data-layout="button_count" data-width="200"
+					data-show-faces="true"></div>
+			</div>
+			<div class="span1" style="margin-top:3px;">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wintria.com"
+				data-text="Check out Wintria.com for Instant News!" data-via="LucasOuYang" 
+				data-hashtags="wintria">Tweet</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);
+				js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}
+				(document,"script","twitter-wjs");</script>
+			</div>
+		</div>
+        -->
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    function focus_input() {
+         $('#query_bar').focus();
+    }
+
+    function fire_form() {
+        $("#splash_input").submit();
+    }
+
+    </script>
+    <script src="{% static "js/wintria-splash-1.js" %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
