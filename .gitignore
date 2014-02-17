@@ -22,8 +22,8 @@ settings.py
 ### hide useless data ###
 apache2
 *.pem
-autocomplete_static/autocomplete/*
-logo_static/logobank/*
-logo_static/logo_thumbs/*
-misc/sphinx/sphinx_indices/*
-misc/Packages
+/Wintria/Wintria/autocomplete_static/autocomplete/*
+/Wintria/Wintria/logo_static/logobank/*
+/Wintria/Wintria/logo_static/logo_thumbs/*
+/Wintria/misc/sphinx/sphinx_indices/*
+/Wintria/misc/Packages
