@@ -1,11 +1,8 @@
 """
 """
-import os
-import sys
 import urllib
 import urllib2
 import json
-from urlparse import urlparse
 
 ACCT_KEY = 'lOy/DHCCQA1e8fjX4U7AUd7/qNRKaRCUX/NTYMyioH0'
 USR_NAME = '27e67155-f7a2-45e1-ac4d-d952a1d1f70f'

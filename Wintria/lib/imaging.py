@@ -1,17 +1,18 @@
-from urllib2 import Request, HTTPError, URLError, build_opener
-from httplib import InvalidURL
 import urllib
 import StringIO
 import math
-import Image
-import ImageFile
+from PIL import Image, ImageFile
+
+from urllib2 import Request, HTTPError, URLError, build_opener
+from httplib import InvalidURL
 
 chunk_size = 1024
 thumbnail_size = 40, 40
 
 def clean_url(url):
-    """url quotes unicode data out of urls"""
-    #url = unicode(url, 'utf8')
+    """
+    url quotes unicode data out of urls
+    """
     url = url.encode('utf8')
     url = ''.join([urllib.quote(c) if ord(c) >= 127 else c for c in url])
     return url
@@ -34,15 +35,19 @@ def prepare_image(image):
     return image
 
 def image_entropy(img):
-    """calculate the entropy of an image"""
+    """
+    calculate the entropy of an image
+    """
     hist = img.histogram()
     hist_size = sum(hist)
     hist = [float(h) / hist_size for h in hist]
     return -sum([p * math.log(p, 2) for p in hist if p != 0])
 
 def square_image(img):
-    """if the image is taller than it is wide, square it off. determine
-    which pieces to cut off based on the entropy pieces."""
+    """
+    if the image is taller than it is wide, square it off. determine
+    which pieces to cut off based on the entropy pieces.
+    """
     x,y = img.size
     while y > x:
         # slice 10px at a time until square
@@ -51,7 +56,7 @@ def square_image(img):
         bottom = img.crop((0, y - slice_height, x, y))
         top = img.crop((0, 0, x, slice_height))
 
-        #remove the slice with the least entropy
+        # remove the slice with the least entropy
         if image_entropy(bottom) < image_entropy(top):
             img = img.crop((0, 0, x, y - slice_height))
         else:

@@ -8,4 +8,3 @@
 
 @reboot !/bin/indexer Article_article --config ~/webapps/windjango/Wintria/misc/sphinx/sphinx.conf
 @reboot ~/bin/searchd --config ~/webapps/windjango/Wintria/misc/sphinx/sphinx.conf
-~                                                                                                  

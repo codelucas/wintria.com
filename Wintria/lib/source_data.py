@@ -1,7 +1,5 @@
-__author__ = "Lucas Ou-Yang"
-__date__ = "July 1st, 2013"
-__version__ = "0.0.1"
-
+"""
+"""
 import re
 import urllib2
 import urllib
@@ -10,18 +8,12 @@ from urlparse import urlparse
 
 from BeautifulSoup import BeautifulSoup
 
-from lib.bing_logo_extract import extract_bing_url
-from lib import s3
-from lib.imaging import thumbnail
-from Article.models import NO_DESC
-
-
-#def todo_later():
-    #return  getRootURL() + "/static/images/super_fallback_img.png"
+from wintria.lib.bing_logo_extract import extract_bing_url
+from wintria.lib import s3
+from wintria.lib.imaging import thumbnail
+from wintria.article.models import NO_DESC
 
 def url_exists(url):
-    # This complicated regex was brought to you by django!
-    # Check them out! https://www.djangoproject.com/
     regex = re.compile(
         r'^(?:http|ftp)s?://'                                                                 # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
@@ -103,7 +95,7 @@ def get_soup(url):
     return soup
 
 def save_to_disk(url, domain):
-    try: urllib.urlretrieve(url, '/home/wintrialucas/webapps/windjango/Wintria/Wintria/logo_static/logobank/' + domain + '.png')
+    try: urllib.urlretrieve(url, '/home/wintrialucas/webapps/windjango/wintria/wintria/logo_static/logobank/' + domain + '.png')
     except Exception, e:
         print str(e), 'error downloading', domain, '\'s logo'
 
@@ -118,8 +110,6 @@ def save_logo(soup, domain):
         save_to_disk(img_url, domain)
     else:
         pass
-        #print 'can\'t find suitable img', domain
-
 
 def push_s3(s):
     try:
@@ -135,16 +125,13 @@ def push_s3(s):
             img.convert('RGB').save(local)
 
         abs_pth = os.path.abspath(local)
-        print s3.upload_img(abs_pth, key, bucket='wintria-source-images') # uploads and returns dest url
+        print s3.upload_img(abs_pth, key, bucket='wintria-source-images')
         os.remove(abs_pth)
 
     except Exception, e:
         print('%s fail to save img %s' % (str(e), s.domain))
         return
 
-
 if __name__ == '__main__':
     soup = get_soup('http://huffingtonpost.com')
     print get_desc(soup)
-
-

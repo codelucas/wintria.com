@@ -1,12 +1,16 @@
+"""
+"""
 from django.db import models
-from lib.custom_time import time_diff_raw
 from django.utils import timezone
 from djangosphinx import SphinxSearch
-from Wintria.settings import get_root_url
-from lib.img_utils import is_bad_url
+
 import math
 import hashlib
 import base64
+
+from wintria.wintria.settings import get_root_url
+from wintria.lib.img_utils import is_bad_url
+from wintria.lib.custom_time import time_diff_raw
 
 NO_DESC = 'No Description Provided'
 
@@ -20,8 +24,10 @@ class Source(models.Model):
 
     def get_small_thumb_url(self, secure=False):
         if secure:
-            return ('https://wintria-source-images.s3-us-west-2.amazonaws.com/%s' % self.thumbnail_key())
-        return ('http://wintria-source-images.s3-us-west-2.amazonaws.com/%s' % self.thumbnail_key())
+            return ('https://wintria-source-images.s3-us-west-2.amazonaws.com/%s'
+                    % self.thumbnail_key())
+        return ('http://wintria-source-images.s3-us-west-2.amazonaws.com/%s'
+                % self.thumbnail_key())
 
     def get_thumb_url(self):
         return get_root_url()+'/static/logo_thumbs/'+self.domain+'.png'
@@ -73,8 +79,10 @@ class Article(models.Model):
 
     def thumb_img(self, secure=False):
         if secure:
-            return ('https://wintria-article-images.s3-us-west-2.amazonaws.com/%s' % self.thumbnail_key())
-        return ('http://wintria-article-images.s3-us-west-2.amazonaws.com/%s' % self.thumbnail_key())
+            return ('https://wintria-article-images.s3-us-west-2.amazonaws.com/%s'
+                    % self.thumbnail_key())
+        return ('http://wintria-article-images.s3-us-west-2.amazonaws.com/%s'
+                % self.thumbnail_key())
 
     # Returns raw seconds of existence
     def getRawAge(self):

@@ -3,7 +3,6 @@ wintria.com
 
 The official source code powering www.wintria.com
 
-
 BeautifulSoup==3.2.1
 MySQL-python==1.2.3
 PIL==1.1.7
@@ -28,3 +27,9 @@ reportlab==2.4
 requests==1.2.3
 virtualenv==1.10.1
 wsgiref==0.1.2
+
+If you have issues install MySQL-python on OSX, run:
+    export PATH=$PATH:/usr/local/mysql/bin
+
+On ubuntu/debian, run:
+    sudo apt-get install libmysqlclient-dev

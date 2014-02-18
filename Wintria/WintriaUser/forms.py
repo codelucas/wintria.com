@@ -1,8 +1,5 @@
-__author__ = 'louyang'
-
 from django.forms import ModelForm
-from WintriaUser.models import WintriaUser
-
+from wintria.wintriauser.models import WintriaUser
 
 class FeedbackForm(ModelForm):
     class Meta:

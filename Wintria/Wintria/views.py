@@ -1,22 +1,23 @@
 from django.shortcuts import render_to_response, RequestContext
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count
-from lib.google import goog_trends
-from lib.io import query_to_articles, articles_to_sources, articles_to_related_keys
-from Wintria.settings import get_root_url
 from django.core.cache import cache
 import random
+
+from wintria.lib.google import goog_trends
+from wintria.lib.io import (query_to_articles, articles_to_sources,
+                            articles_to_related_keys)
+from wintria.wintria.settings import get_root_url
 
 VISITED_COOKIE = 'visited4'
 QUERY_COOKIE = 'c_query'
 QUERY_PARAM = 'query'
 
 def render_with_context(request, template, cookies=[], kwargs={}):
-    '''main 'inherited' view that every non-ajax view calls when returning
+    """
+    Main 'inherited' view that every non-ajax view calls when returning
     a response. This view abstracts cookies, setting critical template vars
     like the root url, etc, render to response, etc. Cookies are passed in the
-    form of a list of tuples.'''
-
+    form of a list of tuples.
+    """
     kwargs['root_url'] = get_root_url()
 
     response = render_to_response(template, kwargs,
@@ -28,8 +29,9 @@ def render_with_context(request, template, cookies=[], kwargs={}):
     return response
 
 def home(request):
-    '''template returning search bar screen, users see this screen first'''
-
+    """
+    Template returning search bar screen, users see this screen first
+    """
     if cache.get('g_trends', default=False):
         g_trends = cache.get('g_trends')
     else:
@@ -44,9 +46,10 @@ def home(request):
     return render_with_context(request, 'home.html', cookies=[ (VISITED_COOKIE, True) ],
                                kwargs={'cur_articles' : None, 'cur_sources' : None,
                                        'trending':g_trends})
-
 def search(request):
-    '''screen displaying the crawled articles and sources'''
+    """
+    screen displaying the crawled articles and sources
+    """
     if not request.COOKIES.get(VISITED_COOKIE, False):
         return home(request)
 
@@ -79,12 +82,13 @@ def wintria_2(request):
 def thanks(request):
     return render_with_context(request, 'support.html', kwargs={})
 
+"""
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
-'''
 def daily(request):
-
-        'top articles':
-        top=Source.objects.annotate(article_count=Count('article')).order_by('-article_count').filter(article_count__gte=10)[:10]
+    'top articles': top=Source.objects.annotate(article_count=Count('article')).\
+        order_by('-article_count').filter(article_count__gte=10)[:10]
 
     top_sources=Source.objects.annotate(article_count=Count('article')).\
         order_by('-article_count').filter(article_count__gte=10)[:10]
@@ -119,11 +123,6 @@ def daily(request):
 def about(request):
     return render_with_context(request, 'story.html')
 
-
-'''
-
-
-"""
 def streams(request, sort="hotness"):
     order = "-timestamp"
     if sort == "hotness": order = "-hotness"
@@ -151,10 +150,7 @@ def streams(request, sort="hotness"):
 
     return render_with_context(request, 'streams.html', {'sources' : sources,
         'sort' : sort, 'num_owned_sources': num_owned_sources})
-"""
 
-
-"""
 def search(request):
     articles = []
     if ('query' in request.GET) and request.GET['query'].strip():

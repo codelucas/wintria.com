@@ -1,6 +1,6 @@
-from Article.models import Article
-from django.core.cache import cache
 import re
+
+from wintria.article.models import Article
 
 MAX_ARTICLE_QUERY = 150
 ARTICLES_PER_CYCLE = 200
@@ -21,11 +21,11 @@ def articles_to_related_keys(articles):
     common_keys = sorted(dd.items(), key=lambda x:x[1], reverse=True)[:12]
     return [ tup[0] for tup in common_keys ]
 
-
 def strip_articles(articles):
-    '''strips articles of useless fields for home
-     Let's safe-uniquify based on titles over 3 words
-     long, since many checks are failing for now'''
+    """
+    Strips articles of useless fields for home. We safe-unique based
+    on titles over 3 words long, since many checks are failing for now.
+    """
     uniq_title={}
     ret = []
     for article in articles:
@@ -38,12 +38,12 @@ def strip_articles(articles):
             article.click_count = None
             article.keywords = u'@@'.join(article.get_keywords_list(limit=20))
             ret.append(article)
-
     return ret
 
-
 def prepare_memekey(text):
-    '''memcached does not allow control chars or white spaces'''
+    """
+    Memcached does not allow control chars or white spaces
+    """
     if text:
         # unicode invalid characters
         RE_XML_ILLEGAL = u'([\u0000-\u0008\u000b-\u000c\u000e-\u001f\ufffe-\uffff])' + \
@@ -59,7 +59,6 @@ def prepare_memekey(text):
         text = "_".join(text.split()) # remove all whitepsace
     return text
 
-
 from django.core.serializers import serialize
 import json
 
@@ -73,8 +72,10 @@ def query_to_articles(q):
     return ret_articles
 
 def articles_to_sources(articles):
-    '''The blow code generates a 2 level nested tuple structure
-    oops, cant use tuples, we are mutating vals'''
+    """
+    The blow code generates a 2 level nested tuple structure
+    oops, cant use tuples, we are mutating vals
+    """
     source_hash = {}
     for a in articles:
 
@@ -93,14 +94,14 @@ def articles_to_sources(articles):
 import gc # garbage collector
 
 def queryset_iterator(queryset, chunksize=1000):
-    '''Iterate over a Django Queryset ordered by the primary key
-
+    """
+    Iterate over a Django Queryset ordered by the primary key
     This method loads a maximum of chunksize (default: 1000) rows in it's
     memory at the same time while django normally would load all rows in it's
     memory. Using the iterator() method only causes it to not preload all the
     classes.
-
-    Note that the implementation of the iterator does not support ordered query sets.'''
+    Note that the implementation of the iterator does not support ordered query sets.
+    """
     pk = 0
     last_pk = queryset.order_by('-pk')[0].pk
     queryset = queryset.order_by('pk')

@@ -1,21 +1,24 @@
 import json
-import re
-
 from django.http import HttpResponse, Http404
-from lib.io import query_to_articles, articles_to_sources, articles_to_related_keys
-from Article.models import Article
-from Article.templatetags.article_extras import jsonify
-from Wintria.views import QUERY_COOKIE, render_with_context, QUERY_PARAM
 from django.db.utils import IntegrityError
 
-# from lib.summarize import SUMMARIZER
+from wintria.lib.io import (query_to_articles, articles_to_sources,
+                            articles_to_related_keys)
+from wintria.article.models import Article
+from wintria.article.templatetags.article_extras import jsonify
+from wintria.wintria.views import (QUERY_COOKIE, render_with_context,
+                                   QUERY_PARAM)
+
+# from wintria.lib.summarize import SUMMARIZER
 
 # Searches for crawlers by a tag input query, updates articles and crawlers.
 SOURCE_DELIM = "&del"
 
 def query_main(request):
-    '''Async calls to the server from the template via this method
-    returns appropriate articles with an query input'''
+    """
+    Async calls to the server from the template via this method
+    returns appropriate articles with an query input
+    """
     if request.method == 'POST':
         if (QUERY_PARAM in request.POST) and request.POST[QUERY_PARAM].strip():
             query = request.POST[QUERY_PARAM].strip()
@@ -46,8 +49,10 @@ def query_main(request):
         raise Http404('What are you doing here?')
 
 def single(request, id=None):
-    '''Retrieves and displays a single article, potential summary
-    generation. We currently have a crude keyword generator'''
+    """
+    Retrieves and displays a single article, potential summary
+    generation. We currently have a crude keyword generator
+    """
     if id:
         try:
             article = Article.objects.filter(id=id)[0]
@@ -78,7 +83,6 @@ def single(request, id=None):
             #    m = mtch
 
             #if m: summary = "".join([output, summary[m.end():]])
-
             return render_with_context(request, 'single.html', kwargs={'article':article}) #, 'summary':summary})
 
         except IntegrityError:
@@ -86,11 +90,8 @@ def single(request, id=None):
 
     raise Http404
 
-
-
-
 # auto_map = AutoComplete.get_mapper()
-'''
+"""
 @csrf_exempt
 def autocomplete(request, q=''):
     resp = []
@@ -105,9 +106,7 @@ def autocomplete(request, q=''):
 
     resp = json.dumps(resp)
     return HttpResponse(resp, mimetype="application/json")
-'''
 
-"""
 # Swaps a crawler (adds one or removes one). Updates the news. Crawler updating is done via frontend.
 @csrf_exempt
 def swapSource(request):
@@ -130,13 +129,11 @@ def swapSource(request):
         return response
     else:
         raise Http404('What are you doing here?')
-"""
-
 
 # The whole purpose of this GET port is to aid
 # the NewsEngine uniquifier. For some reason, a lot
 # of duplicate articles never get caught until we save into mysql...
-"""
+
 from datetime import timedelta, datetime
 import pytz
 PASSWD = "thewintriastartup"
@@ -151,18 +148,17 @@ def article_exists(request):
         western = pytz.timezone('US/Pacific') # Get timezone, localize both
         ago = western.localize(ago)
         now = western.localize(now)
-        #articles = Article.objects.filter(timestamp__range=[ago, now]).values_list('url', flat=True)
-        articles = Article.objects.values_list('url', flat=True)
+        #articles = article.objects.filter(timestamp__range=[ago, now]).values_list('url', flat=True)
+        articles = article.objects.values_list('url', flat=True)
         DEL=u'$$'
         articles=DEL.join(articles)
         jsoned = json.dumps({'articles':articles})
         return HttpResponse(jsoned, mimetype="application/json")
     raise Http404
-"""
-'''
+
 import re
 COLOR = ['red', 'blue', 'orange', 'violet', 'green']
-text = """Graham says that Perl is cooler than Java and Python than Perl. In some circles, maybe. Graham uses the example of Slashdot, written in Perl. But what about Advogato, written in C? What about all of the cool P2P stuff being written in all three of the languages? Considering that Perl is older than Java, and was at one time the Next Big Language, I think you would have a hard time getting statistical evidence that programmers consider Perl "cooler" than Java, except perhaps by virtue of the fact that Java has spent a few years as the "industry standard" (and is thus uncool for the same reason that the Spice Girls are uncool) and Perl is still "underground" (and thus cool, for the same reason that ambient is cool). Python is even more "underground" than Perl (and thus cooler?). Maybe all Graham has demonstrated is that proximity to Lisp drives a language underground. Except that he's got the proximity to Lisp argument backwards too."""
+#text = Graham says that Perl is cooler than Java and Python than Perl. In some circles, maybe. Graham uses the example of Slashdot, written in Perl. But what about Advogato, written in C? What about all of the cool P2P stuff being written in all three of the languages? Considering that Perl is older than Java, and was at one time the Next Big Language, I think you would have a hard time getting statistical evidence that programmers consider Perl "cooler" than Java, except perhaps by virtue of the fact that Java has spent a few years as the "industry standard" (and is thus uncool for the same reason that the Spice Girls are uncool) and Perl is still "underground" (and thus cool, for the same reason that ambient is cool). Python is even more "underground" than Perl (and thus cooler?). Maybe all Graham has demonstrated is that proximity to Lisp drives a language underground. Except that he's got the proximity to Lisp argument backwards too.
 regex = re.compile(r"(\blisp\b)|(\bpython\b)|(\bperl\b)|(\bjava\b)|(\bc\b)", re.I)
 
 i = 0; output = "&lt;html&gt;"
@@ -174,13 +170,9 @@ for m in regex.finditer(text):
     i = m.end()
 print "".join([output, text[m.end():], "&lt;/html&gt;"])
 
-'''
-
-
-'''
 import re
 COLOR = ['red', 'blue', 'orange', 'violet', 'green']
-text = """Graham says that Perl is cooler than Java and Python than Perl.
+text = '''Graham says that Perl is cooler than Java and Python than Perl.
 In some circles, maybe. Graham uses the example of Slashdot, written in Perl.
 But what about Advogato, written in C? What about all of the cool P2P stuff being written
 in all three of the languages? Considering that Perl is older than Java, and was
@@ -191,7 +183,7 @@ the same reason that the Spice Girls are uncool) and Perl is still "underground"
 thus cool, for the same reason that ambient is cool). Python is even more "underground"
 than Perl (and thus cooler?). Maybe all Graham has demonstrated is that proximity to
 Lisp drives a language underground. Except that he's got the proximity to Lisp argument
-backwards too."""
+backwards too.'''
 regex = re.compile(r"(\blisp\b)|(\bpython\b)|(\bperl\b)|(\bjava\b)|(\bc\b)", re.I)
 i = 0; output = "&lt;html&gt;"
 for m in regex.finditer(text):
@@ -202,4 +194,4 @@ for m in regex.finditer(text):
     i = m.end()
 print "".join([output, text[m.end():], "&lt;/html&gt;"])
 
-'''
+"""

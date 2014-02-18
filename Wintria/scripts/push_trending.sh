@@ -11,7 +11,7 @@ trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
 echo $$ > ${LOCKFILE}
 
 # do stuff
-(cd /home/wintrialucas/webapps/windjango/Wintria; /usr/local/bin/python2.7 manage.py PushTrending);
+(cd /home/wintrialucas/webapps/windjango/Wintria; /usr/local/bin/python2.7 manage.py push_trending);
 
 # manually copy static file over, as autocomplete dir is way to large
 cp /home/wintrialucas/webapps/windjango/Wintria/Wintria/autocomplete_static/autocomplete/prefetch.json /home/wintrialucas/webapps/windevstatic/autocomplete/prefetch.json
