@@ -58,8 +58,8 @@ STATIC_ROOT = '/home/wintrialucas/webapps/winstatic/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    '/home/wintrialucas/webapps/windjango/Wintria/Wintria/templates/static/',
-    '/home/wintrialucas/webapps/windjango/Wintria/Wintria/logo_static/',
+    '/home/wintrialucas/webapps/windjango/wintria/wintria/templates/static/',
+    '/home/wintrialucas/webapps/windjango/wintria/wintria/logo_static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -100,13 +100,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request', # Added so request objects can be used in templates
 )
 
-ROOT_URLCONF = 'Wintria.urls'
+ROOT_URLCONF = 'wintria.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Wintria.wsgi.application'
+WSGI_APPLICATION = 'wintria.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/wintrialucas/webapps/windjango/Wintria/Wintria/templates/',
+    '/home/wintrialucas/webapps/windjango/wintria/wintria/templates/',
 )
 
 ALLOWED_HOSTS = ['.wintria.com']
@@ -121,8 +121,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'djangosphinx',
-    'Article',
-    'WintriaUser',
+    'article',
+    'wintriauser',
 )
 
 CACHES = {

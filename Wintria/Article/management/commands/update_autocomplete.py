@@ -2,8 +2,8 @@
 """
 from django.core.management.base import BaseCommand, CommandError
 
-from Wintria.lib.easycomplete import easycomplete
-from Wintria.lib.io import convert_to_datum
+from wintria.lib.easycomplete import easycomplete
+from wintria.lib.io import convert_to_datum
 
 import json
 import string
@@ -32,7 +32,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         m = easycomplete.get_mapper()
         autocomplete_url = \
-            '/home/wintrialucas/webapps/windjango/Wintria/Wintria/autocomplete_static/autocomplete/'
+            '/home/wintrialucas/webapps/windjango/wintria/wintria/autocomplete_static/autocomplete/'
 
         for query, results in m.items():
             query = valid_filename(query)

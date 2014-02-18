@@ -3,10 +3,10 @@
 import os
 from django.core.management.base import BaseCommand, CommandError
 
-from Wintria.lib.io import queryset_iterator
-from Wintria.lib.imaging import thumbnail
-from Wintria.lib import s3
-from Wintria.Article.models import Source
+from wintria.lib.io import queryset_iterator
+from wintria.lib.imaging import thumbnail
+from wintria.lib import s3
+from wintria.article.models import Source
 
 chunk_size = 1024
 thumbnail_size = 40, 40
@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         sources = queryset_iterator(Source.objects.all())
-        os.chdir('/home/wintrialucas/webapps/windjango/Wintria/dock/')
+        os.chdir('/home/wintrialucas/webapps/windjango/wintria/dock/')
 
         for s in sources:
             try:

@@ -8,11 +8,11 @@ import urllib2
 from warnings import filterwarnings
 import MySQLdb as Database
 
-from Wintria.Article.models import Source
-from Wintria.Wintria.settings import get_root_url
+from wintria.article.models import Source
+from wintria.wintria.settings import get_root_url
 
 thumbnail_size = 70, 70
-dest_thumb_url = '/home/wintrialucas/webapps/windjango/Wintria/Wintria/logo_static/logo_thumbs/'
+dest_thumb_url = '/home/wintrialucas/webapps/windjango/wintria/wintria/logo_static/logo_thumbs/'
 
 def generate_thumb(url, domain):
     _file = cStringIO.StringIO(urllib2.urlopen(url, timeout=4).read())
