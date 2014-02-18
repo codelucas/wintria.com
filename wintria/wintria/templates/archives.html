@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load article_extras %} 
+{% load staticfiles %}
+
+{% block title %} Wintria - Archives {% endblock %}
+
+{% block styles %}
+    <style>
+        h1,h2,h3,h4,strong,span { color:#2980b9; }
+        h3 { font-size: 20px;line-height: 20px;margin-top:0px;margin-bottom:-2px;}
+        p { color:#232629;font-size:18px;line-height: 25px;-webkit-font-smoothing:antialiased;-webkit-text-stroke:0.35px; }
+        .how {line-height: 30px;}
+    </style>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="span3">
+		<div class="row spacer"></div>
+
+		<div class="well sidebar-nav">
+			<ul class="nav nav-pills" style="margin-bottom:0px;">
+			  <li><a>Sort By:</a></li>
+			  {% if sort == "newest" %}
+				  <li class="active"><a href="{{ rootURL }}/archives/newest/?tags={{ full_tags }}/">newest</a></li>
+				  <li><a href="{{ rootURL }}/archives/hotness/?tags={{ full_tags }}">hotness</a></li>
+			  {% else %}
+				  <li><a href="{{ rootURL }}/archives/newest/?tags={{ full_tags }}">newest</a></li>
+				  <li class="active"><a href="{{ rootURL }}/archives/hotness/?tags={{ full_tags }}">hotness</a></li>
+			  {% endif %}
+			</ul>
+		</div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div id="main" class="container clear-top">
+<div class="row-fluid">
+<div class="span9 dynamic_plat">
+	<div class="row spacer"></div>
+	<div class="well well-large light-well">
+		<ul class="nav nav-tabs">
+            <form action={{ request.get_full_path }} method="get" name="tagQuery">
+                <input type="text" name="tags" style="font-size:18px;line-height:50px;height:40px;width:350px;"
+                       placeholder="search for a person, place, or thing"/>
+                <button class="btn btn-large btn-primary" type="button"
+                        style="margin-top:-10px;"onclick=submitTags();>Search</button>
+            </form>
+		</ul>
+
+		{% if numresults %}
+		    <h4>{{ numresults }} results have been found</h4>
+		{% endif %}
+
+		{% for article in articles %}
+			<div class="row-fluid">
+				<div class="span2">
+				{% if article.thumb_url %}
+					<img src={{ article.thumb_url }} class="article_thumb" onerror='this.onerror=null; this.src="/static/images/super_fallback_img.png"'/>
+				{% else %}	
+					<img src={{ article.fallback_url }} class="article_thumb"/>
+				{% endif %}
+				</div>
+				<div class="span10">
+					<a href="{{ article.url }}" class="article_link" target="_blank"><h3>{{ article.title }}</h3></a>
+					<a href="http://" + "{{ article.domain }}" target="_blank"><span style="font-size:11px;">{{ article.domain }}</span></a>
+					<span style="font-size:11px;">&emsp; {{ article.age }}</span>
+					<br>
+					<p>{{ article.blurb }}</p>
+				</div>
+			</div>
+			<hr style="margin-top:12px;opacity:0.25;">
+		{% endfor %}
+		<div class="pagination">
+			<ul>
+                {% with objects=articles %}
+				    {% pagination objects %}
+                {%  endwith %}
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.article_link').click(function() {
+				var href = $(this).attr('href');
+				var post_to = "{{ rootURL }}" + "/api/clickArticle/";
+				$.post(post_to, { url: href },
+					function(response) {
+					}, 'json'
+				)	
+			});
+		});
+        function submitTags() {
+            document.forms.tagQuery.submit();
+        }
+	</script>
+{% endblock %}
