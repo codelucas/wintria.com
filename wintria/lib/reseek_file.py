@@ -1,5 +1,3 @@
-
-
 """Wrap a file handle to allow seeks back to the beginning
 
 Sometimes data coming from a socket or other input file handle isn't

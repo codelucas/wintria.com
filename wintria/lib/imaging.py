@@ -1,3 +1,8 @@
+"""
+File straight from an old copy of reddit's source code.
+This code is designed to extract the most relevant image links
+from an html page using meta tags and largest img extraction.
+"""
 import urllib
 import StringIO
 import math
@@ -134,7 +139,6 @@ def fetch_url(url, referer=None, retries=1, dimension=False):
         finally:
             if 'open_req' in locals():
                 open_req.close()
-
 
 def thumbnail(url):
     content_type, image_str = fetch_url(url)

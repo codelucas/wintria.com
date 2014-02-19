@@ -1,3 +1,6 @@
+"""
+Extra django template tags related to articles.
+"""
 from django.core import serializers
 from django.utils.safestring import SafeString
 
@@ -8,8 +11,10 @@ register = Library()
 
 # This method takes a list of django models (still in python model form), and churns them into
 # a jsonified form, with the attributes of a model being keys, and the pk being a pk attribute.
+
 def jsonify(object):
     return SafeString(serializers.serialize('json', object))
+
 register.filter('jsonify', jsonify)
 
 @register.inclusion_tag('pagination.html', takes_context=True)

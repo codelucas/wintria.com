@@ -23,13 +23,16 @@ from django.db.utils import IntegrityError
 
 from wintria.article.models import Article, Source
 from wintria.lib.source_data import get_desc, get_soup, save_logo, push_s3
+from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
 
 MAX_ARCHIVE_COUNT = 1000000
 INPUT_FILE = 'Saved_Articles.txt'
-INPUT_NAME = "/home/wintrialucas/webapps/windjango/wintria/dock/" + INPUT_FILE
-LOC_DIR = '/home/wintrialucas/webapps/windjango/wintria/dock/'
+
+INPUT_NAME = PROJECT_ROOT + 'wintria/dock/' + INPUT_FILE
+LOC_DIR = PROJECT_ROOT + 'wintria/dock/'
+
 PROPERTY_DELIMITER = u";;"
-ARTICLE_DELIMITER = u"\$\$" # note the escape
+ARTICLE_DELIMITER = u"\$\$"
 
 def purge_old():
     now = datetime.now()
@@ -143,7 +146,8 @@ class Command(BaseCommand):
                         scheme = u'http'
                     f_url = scheme + u'://' + domain + url_obj.path
 
-                    # Make sure incoming article's canon form is not already present (without www. or https://)
+                    # Make sure incoming article's canon form is not already present
+                    # (without www. or https://)
                     # If we get a non existing error, we are good to go!
                     try:
                         _dup = Article.objects.get(url=f_url)
@@ -174,7 +178,9 @@ class Command(BaseCommand):
 
             # gc.collect()
 
-        os.remove(INPUT_NAME)  # Delete that file until the next FTP cycle
-        self.stdout.write(str(count) + ' files successfully unpacked and saved and we had ' + str(dups) + ' duplicate articles ' + \
-            ' and we have ' + str(total) + ' total incoming articles ' + datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+        os.remove(INPUT_NAME)
+        self.stdout.write(str(count) + ' files successfully unpacked and saved and we had '
+                          + str(dups) + ' duplicate articles and we have ' + str(total) +
+                          ' total incoming articles ' +
+                          datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         purge_old()

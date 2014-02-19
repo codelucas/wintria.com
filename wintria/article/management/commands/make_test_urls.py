@@ -39,7 +39,7 @@ class Command(BaseCommand):
             os.remove(file_path)
 
         articles = queryset_iterator(Article.objects.all())
-        CAP = 100000 #int(options['num'])
+        CAP = 100000 # int(options['num'])
         interval = min(10000, (CAP / 10))
 
         current_str = u''

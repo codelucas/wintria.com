@@ -8,7 +8,7 @@ import math
 import hashlib
 import base64
 
-from wintria.wintria.settings import get_root_url
+from wintria.wintria.rename_this_to_settings import get_root_url
 from wintria.lib.img_utils import is_bad_url
 from wintria.lib.custom_time import time_diff_raw
 

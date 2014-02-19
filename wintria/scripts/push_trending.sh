@@ -11,10 +11,10 @@ trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
 echo $$ > ${LOCKFILE}
 
 # do stuff
-(cd /home/wintrialucas/webapps/windjango/Wintria; /usr/local/bin/python2.7 manage.py push_trending);
+(cd /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria; /usr/local/bin/python2.7 manage.py push_trending);
 
 # manually copy static file over, as autocomplete dir is way to large
-cp /home/wintrialucas/webapps/windjango/Wintria/Wintria/autocomplete_static/autocomplete/prefetch.json /home/wintrialucas/webapps/windevstatic/autocomplete/prefetch.json
+cp /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria/wintria/autocomplete_static/autocomplete/prefetch.json /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria/wintria/templates/static/autocomplete/prefetch.json
 
 rm -f ${LOCKFILE}
 

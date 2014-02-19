@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from wintria.article.models import Article
 from wintria.lib.io import convert_to_datum
 from wintria.lib.google import goog_trends
+from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
 
 from warnings import filterwarnings
 import MySQLdb as Database
@@ -43,15 +44,13 @@ class Command(BaseCommand):
         new_datum = convert_to_datum(trends, tag_all=False) # not in string form
 
         prefetch_file = 'prefetch.json'
-        target_url = '/home/wintrialucas/webapps/windjango/wintria/wintria/' \
-                     'autocomplete_static/autocomplete/' + prefetch_file
+        target_url = PROJECT_ROOT + 'wintria/wintria/autocomplete_static/autocomplete/' + prefetch_file
         try:
             f = codecs.open(target_url, 'r+', encoding='utf-8')
         except IOError, e:
             f = open(target_url, 'w+')
             f.close()
             f = codecs.open(target_url, 'r+', encoding='utf-8')
-
 
         # json, but in twitters 'datum' format
         raw_dat = f.read()

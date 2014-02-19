@@ -1,11 +1,12 @@
 from django.shortcuts import render_to_response, RequestContext
 from django.core.cache import cache
+
 import random
 
 from wintria.lib.google import goog_trends
 from wintria.lib.io import (query_to_articles, articles_to_sources,
                             articles_to_related_keys)
-from wintria.wintria.settings import get_root_url
+from wintria.wintria.rename_this_to_settings import get_root_url
 
 VISITED_COOKIE = 'visited4'
 QUERY_COOKIE = 'c_query'

@@ -9,10 +9,10 @@ from warnings import filterwarnings
 import MySQLdb as Database
 
 from wintria.article.models import Source
-from wintria.wintria.settings import get_root_url
+from wintria.wintria.rename_this_to_settings import get_root_url, PROJECT_ROOT
 
 thumbnail_size = 70, 70
-dest_thumb_url = '/home/wintrialucas/webapps/windjango/wintria/wintria/logo_static/logo_thumbs/'
+dest_thumb_url = PROJECT_ROOT + 'wintria/wintria/logo_static/logo_thumbs/'
 
 def generate_thumb(url, domain):
     _file = cStringIO.StringIO(urllib2.urlopen(url, timeout=4).read())
@@ -36,15 +36,7 @@ class Command(BaseCommand):
             except Exception, e:
                 print 'thumbnail error', str(e), d
 
-
 if __name__ == '__main__':
     url = 'http://wintrialucas.webfactional.com/static/logobank/www.dailymail.co.uk.png'
     domain = 'www.dailymail.co.uk'
     generate_thumb(url, domain)
-
-
-# def alt_thumb(url, domain):
-#    _file = cStringIO.StringIO(urllib2.urlopen(url, timeout=4).read())
-#    img = Image.open(_file)
-#    img = prepare_image(img)
-#    img.save(dest_thumb_url + domain + '.png')

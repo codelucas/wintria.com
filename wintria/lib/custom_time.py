@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime
 from django.utils import timezone
 
 def time_diff_raw(creationTimestamp = None):

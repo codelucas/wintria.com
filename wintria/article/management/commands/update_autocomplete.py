@@ -1,12 +1,14 @@
 """
 """
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from wintria.lib.easycomplete import easycomplete
 from wintria.lib.io import convert_to_datum
+from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
 
 import json
 import string
+import os
 
 valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
 
@@ -31,8 +33,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         m = easycomplete.get_mapper()
-        autocomplete_url = \
-            '/home/wintrialucas/webapps/windjango/wintria/wintria/autocomplete_static/autocomplete/'
+        autocomplete_url = PROJECT_ROOT + 'wintria/wintria/autocomplete_static/autocomplete/'
 
         for query, results in m.items():
             query = valid_filename(query)

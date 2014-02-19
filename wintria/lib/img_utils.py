@@ -1,3 +1,7 @@
+"""
+A list of useful functions for image manipulation.
+Mainly used for Wintria's logo processing.
+"""
 import math
 import urllib2
 import struct
@@ -138,7 +142,6 @@ def get_img_info(datastream):
             pass
 
     return content_type, width, height
-
 
 if __name__=='__main__':
     img_data = urllib2.urlopen("http://wintrialucas.webfactional.com/static/logobank/www.nytimes.com.png")

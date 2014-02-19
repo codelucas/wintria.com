@@ -12,7 +12,7 @@ trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
 echo $$ > ${LOCKFILE}
 
 # do stuff
-(cd /home/wintrialucas/webapps/windjango/Wintria; /usr/local/bin/python2.7 manage.py UnpackArticles);
+(cd /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria; /usr/local/bin/python2.7 manage.py unpack_articles);
 
 rm -f ${LOCKFILE}
 

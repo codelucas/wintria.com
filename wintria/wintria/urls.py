@@ -11,13 +11,13 @@ urlpatterns = patterns('',
         r'dfddsdsadfafewewefrfgs2934hfdhksbhvfs/', include(admin.site.urls)),
 )
 
-urlpatterns += patterns('article.views',
+urlpatterns += patterns('wintria.article.views',
     url(r'^api/query_main/$', 'query_main'),
     url(r'^(?P<id>(\d+))/(.+)/$', 'single'),
     url(r'^(?P<id>(\d+))/$', 'single'),
 )
 
-urlpatterns += patterns('wintria.views',
+urlpatterns += patterns('wintria.wintria.views',
     url(r'^$', 'home'),
     url(r'^search/$', 'search'),
     url(r'^story/$', 'story'),
@@ -34,7 +34,7 @@ urlpatterns += patterns('wintria.views',
     # url(r'^search/$', 'search'),
 )
 
-urlpatterns += patterns('wintriauser.views',
+urlpatterns += patterns('wintria.wintriauser.views',
     url(r'^feedback/$', 'send_feedback'),
     url(r'^thanks_for_all_the_fish/$', 'thanks_for_all_the_fish')
 )

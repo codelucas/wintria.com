@@ -1,8 +1,7 @@
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-"""
-"""
+PROJECT_ROOT = "/home/lucas/www/wintria.com/wintria-env/wintria.com/"
 
 ADMINS = (
     ('', ''),
@@ -53,13 +52,13 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/home/wintrialucas/webapps/winstatic/'
+STATIC_ROOT = PROJECT_ROOT + 'wintria/wintria/templates/static/'
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    '/home/wintrialucas/webapps/windjango/wintria/wintria/templates/static/',
-    '/home/wintrialucas/webapps/windjango/wintria/wintria/logo_static/',
+    # ROOT_URL + 'wintria/wintria/templates/static/',
+    PROJECT_ROOT + 'wintria/wintria/templates/logo_static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -76,7 +75,6 @@ SECRET_KEY = ''
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,7 +104,7 @@ ROOT_URLCONF = 'wintria.urls'
 WSGI_APPLICATION = 'wintria.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/wintrialucas/webapps/windjango/wintria/wintria/templates/',
+    PROJECT_ROOT + 'wintria/wintria/templates/',
 )
 
 ALLOWED_HOSTS = ['.wintria.com']
@@ -128,7 +126,7 @@ INSTALLED_APPS = (
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': 'unix:/home/wintrialucas/memcached.sock',
+        'LOCATION': 'unix:/home/lucas/memcached.sock',
     }
 }
 
