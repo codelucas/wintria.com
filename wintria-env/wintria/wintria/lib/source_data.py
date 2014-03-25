@@ -12,7 +12,7 @@ from wintria.lib.bing_logo_extract import extract_bing_url
 from wintria.lib import s3
 from wintria.lib.imaging import thumbnail
 from wintria.article.models import NO_DESC
-from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
+from wintria.wintria.settings import PROJECT_ROOT
 
 def url_exists(url):
     regex = re.compile(

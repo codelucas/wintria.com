@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Article, Source
+from wintria.article.models import Article, Source
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'url', 'thumb_url', 'timestamp', 'click_count',)

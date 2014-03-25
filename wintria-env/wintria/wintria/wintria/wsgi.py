@@ -15,14 +15,22 @@ framework.
 import os
 import sys
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wintria.settings")
+path = '/home/lucas/www/wintria.com/wintria-env/wintria'
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wintria.wintria.settings")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+
+from django.core.handlers.wsgi import WSGIHandler
+application = WSGIHandler()
+
+# from django.core.wsgi import get_wsgi_application
+# application = get_wsgi_application()

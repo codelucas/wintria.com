@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 
 from wintria.lib.easycomplete import easycomplete
 from wintria.lib.io import convert_to_datum
-from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
+from wintria.wintria.settings import PROJECT_ROOT
 
 import json
 import string

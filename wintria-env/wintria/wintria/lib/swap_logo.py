@@ -4,7 +4,7 @@ import urllib2
 
 from img_utils import prepare_image
 from PIL import Image
-from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
+from wintria.wintria.settings import PROJECT_ROOT
 
 thumbnail_size = 100, 100
 

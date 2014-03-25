@@ -23,7 +23,7 @@ from django.db.utils import IntegrityError
 
 from wintria.article.models import Article, Source
 from wintria.lib.source_data import get_desc, get_soup, save_logo, push_s3
-from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
+from wintria.wintria.settings import PROJECT_ROOT
 
 MAX_ARCHIVE_COUNT = 1000000
 INPUT_FILE = 'Saved_Articles.txt'

@@ -4,13 +4,12 @@ import json
 from django.http import HttpResponse, Http404
 from django.db.utils import IntegrityError
 
-from wintria.lib.io import (query_to_articles, articles_to_sources,
+from lib.io import (query_to_articles, articles_to_sources,
                             articles_to_related_keys)
 from wintria.article.models import Article
 from wintria.article.templatetags.article_extras import jsonify
-from wintria.wintria.views import (QUERY_COOKIE, render_with_context,
-                                   QUERY_PARAM)
-# from wintria.lib.summarize import SUMMARIZER
+from wintria.wintria.views import (QUERY_COOKIE, render_with_context, QUERY_PARAM)
+# from lib.summarize import SUMMARIZER
 
 # Searches for crawlers by a tag input query, updates articles and crawlers.
 SOURCE_DELIM = "&del"

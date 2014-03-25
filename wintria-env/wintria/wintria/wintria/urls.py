@@ -29,9 +29,6 @@ urlpatterns += patterns('wintria.wintria.views',
     # url(r'^streams/(?P<sort>\w+)/$', 'streams'),
     # url(r'^daily/$', 'daily'),
     # url(r'^daily/(?P<sort>\w+)/$', 'daily'),
-    # Order matters below here
-    # url(r'^(?P<user>\w+)/$', 'home'),
-    # url(r'^search/$', 'search'),
 )
 
 urlpatterns += patterns('wintria.wintriauser.views',

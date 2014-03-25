@@ -7,7 +7,7 @@ from wintria.lib.io import queryset_iterator
 from wintria.lib.imaging import thumbnail
 from wintria.lib import s3
 from wintria.article.models import Source
-from wintria.wintria.rename_this_to_settings import PROJECT_ROOT
+from wintria.wintria.settings import PROJECT_ROOT
 
 chunk_size = 1024
 thumbnail_size = 40, 40

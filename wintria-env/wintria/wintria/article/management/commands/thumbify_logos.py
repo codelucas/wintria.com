@@ -9,7 +9,7 @@ from warnings import filterwarnings
 import MySQLdb as Database
 
 from wintria.article.models import Source
-from wintria.wintria.rename_this_to_settings import get_root_url, PROJECT_ROOT
+from wintria.wintria.settings import get_root_url, PROJECT_ROOT
 
 thumbnail_size = 70, 70
 dest_thumb_url = PROJECT_ROOT + 'wintria/wintria/logo_static/logo_thumbs/'
