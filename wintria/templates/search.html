@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load article_extras %}
+
+{% block title %} Wintria - Explore the Present {% endblock %}
+
+{% block meta_head %}
+
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .loading_txt { font-size:18px;font-weight: 200;color:#2980b9;
+            -webkit-font-smoothing:antialiased;-webkit-text-stroke:0.35px; }
+    </style>
+{% endblock %}
+
+{% block sidebar %} <!-- Kill the sidebar --> {% endblock %}
+
+{% block content %}
+
+<div class="queried_container row-fluid">
+	<div class="sidebar-nav">
+		<ul class="nav nav-list">
+        <div class="row-fluid">
+            <div class="span12 selected-streams-list">
+              <!-- FOR THE DISPLAYED Sources, THE NAME ATTRIBUTE IS THE UNIQUE Sources NAME FOR AJAX KEY-VALUE PURPOSES. -->
+              <div class="keyword-list">
+
+
+              </div>
+
+              <div class="sources-list">
+                     <!-- Sources GO HERE -->
+              </div>
+            </div>
+        </div>
+		</ul>
+	</div>
+
+<div style="margin-top:10px;"></div>
+
+<div id="main" class="container clear-top" style="width:1350px;">
+<div class="span12 dynamic_plat">
+  <div class="the-pause-area">
+    {% autoescape off %}
+    <div class="row-fluid">
+      <div class="well well-large 1 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 2 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 3 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 4 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="well well-large 5 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 6 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 7 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 8 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="well well-large 9 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 10 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 11 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+      <div class="well well-large 12 article loading-article span3">
+            <div style="height:17%;overflow:hidden;">
+
+            </div>
+          <div style="height:83%;overflow:hidden;"></div>
+      </div>
+    </div>
+  {% endautoescape %}
+  </div>
+</div>
+</div>
+</div>
+
+<!--<div id="stream-limit-warning-modal-max" class="modal hide fade">
+    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h3>Stream Limit</h3></div>
+    <div class="modal-body"><p>Sorry, but we can only support up to 10 streams at one time!</p></div>
+    <div class="modal-footer"><a href="#" class="close" data-dismiss="modal" class="btn">Close</a></div>
+</div>
+<div id="stream-limit-warning-modal-min" class="modal hide fade">
+    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h3>Stream Limit</h3></div>
+    <div class="modal-body"><p>You need at least one source!</p></div>
+    <div class="modal-footer"><a href="#" class="close" data-dismiss="modal" class="btn">Close</a></div>
+</div>-->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+      function format_stream_list(logo_url, domain_id, description) {
+         if (description == null) {
+             description = "";
+         }
+         var new_desc = description.slice(0, 200);
+         if (description.length > 300) { new_desc += "..."; }
+
+         return '<img id="' + domain_id + '" class="stream-in-box" title="' + domain_id + ' -- ' +
+                    new_desc + '" src="' + logo_url + '" rel="tooltip" ' +
+                    'data-placement="bottom" data-container="body" onerror="this.src=\' '+root_url+'/static/images/no_source_logo.png\'" />';
+      }
+
+      function format_key_list(key) {
+          return '<a href="{{ root_url }}/search/?query=' + key + '"> #' + key + ' &nbsp;' + '</a>';
+      }
+
+      {% for source in cur_sources %}
+         $(".sources-list").append(
+             format_stream_list("{{ source.get_small_thumb_url }}", "{{ source.domain }}",
+                "{{ source.description }}")
+          );
+      {% endfor %}
+
+      {% for key in related_keys %}
+         $(".keyword-list").append(
+             format_key_list("{{ key }}")
+          );
+      {% endfor %}
+      // These django template variables are required in this template.
+      var news = {{ cur_articles|jsonify }};
+      var source_count = {{ cur_sources|length }};
+    </script>
+    <script src="{% static "js/wintria-home-1.js" %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

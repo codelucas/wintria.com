@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} Feedback {% endblock %}
+
+{% block styles %}
+    <style>
+        h1,h2,h3,h4,strong,span { color:#2980b9; }
+        input[type=text] { border:1px solid #4EB8E0; }
+        input[type=submit] { margin-left:25px; }
+        label { font-weight:200;font-size:27px; }
+        ul { list-style-type: none; }
+        #id_email { margin-bottom:25px;margin-top:3px;border: 1px solid #999999;value:"your@email.com"; }
+        #id_favorite_news { margin-top:3px;margin-bottom: 25px;height:100px;border: 1px solid #999999; }
+        #id_feedback { margin-top:3px;height:150px;border: 1px solid #999999; }
+        .errorlist { color:#F00; }
+    </style>
+{% endblock %}
+
+{% block query_bar %} {% endblock %}
+
+{% block content %}
+<div id="main" class="container clear-top">
+    <div class="row-fluid" style="">
+        <div class="span12 dynamic_plat" style="font-weight: 300;text-align: center;">
+            <h4>We need your feedback to improve your user experience!</h4>
+            <div class="row spacer"></div>
+            <div class="well well-large">
+
+                <form method="post" action="{{ root_url }}/feedback/">
+                    {% csrf_token %}
+                    <ul>
+                        {{ feedback_form.as_ul }}
+                    </ul>
+                    <input type="submit" value="Submit"/>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        jQuery('#id_email').attr('placeholder', 'your@email.com').attr('value', '');
+
+        jQuery('#id_favorite_news').attr('placeholder', 'Eg: CNN, People Magazine, ESPN.').attr('value', '');
+        jQuery("label[for='id_favorite_news']").html("What’s your favorite news source, magazine, reviewer etc.? ");
+
+        jQuery('#id_feedback').attr('placeholder', 'What do you like about Wintria? What don’t you like about Wintria? ').attr('value', '');
+        jQuery("label[for='id_feedback']").html('Give us your honest feedback!  ');
+        /*$input = $("#id_favorite_news");
+        $textarea = $("<textarea></textarea>").attr({
+            id: $input.id,
+            placeholder: $input.placeholder,
+            value: $input.val()
+        });
+        $input.after($textarea).remove();
+
+        $input = $("#id_feedback");
+        $textarea = $("<textarea></textarea>").attr({
+            id: $input.id,
+            placeholder: $input.placeholder,
+            value: $input.val()
+        });
+        $input.after($textarea).remove();
+        */
+    </script>
+
+{% endblock %}
