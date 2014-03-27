@@ -1,0 +1,206 @@
+{% extends "search.html" %}
+{% load staticfiles %}
+{% load article_extras %}
+
+{% block meta_head %}
+    {% block title %}<title>{{ article.title }} -- Wintria</title>{% endblock %}
+    <meta name="keywords" content="{{ article.get_keywords_list|join:", " }}">
+    <meta name="description" content="{{ article.txt|slice:":300" }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" itemprop="url" />
+    <meta property="og:site_name" content="Wintria" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ article.title }}" />
+    <meta property="og:image" content="{{ article.thumb_url }}" />
+    <meta property="og:description" content="{{ article.txt|slice:":300" }}" />
+
+    <meta property="fb:app_id" content="141119156036716"/>
+    <link rel="image_src" href="{{ article.thumb_url }}/" />
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+{% endblock %}
+
+{% block social_media %}{% endblock %}
+
+{% block styles %}
+    <style>
+        .skinny { color:#232629;font-size:21px;line-height: 25px;-webkit-font-smoothing:antialiased;
+            -webkit-text-stroke:0.35px;font-weight: 200; }
+    </style>
+{% endblock %}
+
+{% block query_bar %}
+   <form id="main_query_input" class="navbar-search form-search pull-left" action="{{ root_url }}/search/" method="get">
+
+      <div class="main_dropdown navbar-search input-append" style="margin-bottom:0;margin-left:-20px;">
+          <input data-provide="typeahead" class="typeahead" name="query"  id="appendedInputButton-02" type="text"
+               style="font-size:15px;margin-top:0;margin-bottom:0;
+               width:240px;" placeholder="what are you interested in?"/>
+
+               <button class="btn btn-large" style="height:43px;margin-top:0;" type="submit">
+                   <span class="fui-search"></span></button>
+      </div>
+   </form>
+
+
+{% endblock %}
+
+<!-- Main article Window -->
+{% block content %}
+<div class="row-fluid" style="min-width: 450px;">
+    <div class="span12 dynamic_plat">
+      <!--<div class="row spacer"></div>-->
+        <div class="row-fluid">
+            <div class="row-fluid" style="margin:0 auto !important;flaot:none;width:85%;">
+                <!--<div class="row-fluid">
+                    <div class="span12">
+                        <span style="font-size:22px;font-family:lato;"><img src=" article.source.logo_url }}"
+                              height="42" width="42"/> <a href="http://{ article.source.domain }}"
+                              target="_blank">{ article.source.domain }}</a></span>
+                    </div>
+                </div>-->
+                <!--<p>{ article.source.description|safe }}</p>
+                <br>-->
+
+                <!--<div class="spacer"></div>-->
+                <!--<p class="skinny" style="margin-top:-25px;">{ summary|safe }}</p>-->
+                <div style="height:30px;overflow-x:hidden;overflow-y:hidden;">
+                <span class="skinny">Join the Conversation:</span>&emsp;
+                    {% for key in article.get_keywords_list %}
+                        <span class="skinny" style="font-size:18px;">
+                            <a class="twitter_popup" onload="window.open
+                            ('https://twitter.com/search?q=%23{ key }}','',
+                            'height=926,width=873,left=100,top=100,resizable=yes,scrollbars=yes,status=yes');"
+                            href="https://twitter.com/search?q=%23{{ key }}">#{{ key }}&nbsp;
+                            </a>
+                        </span>
+                    {% endfor %}
+                </div>
+
+                <!--<div class="spacer"></div>-->
+                  <div class="" style="width:10px;display:inline-block;">
+                      <!--
+                     <a data-href="{ request.build_absolute_uri }}" data-send="false" class="btn btn-small btn-social-facebook">
+                        <i class="fui-facebook"></i></a>-->
+                      <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-width="450"
+                            data-show-faces="false" data-layout="button_count" data-send="false"></div> <!--data-layout="box_count"-->
+
+                  </div>
+                  <div class="" style="width:10px;margin-left:80px;display:inline-block;"><!--data-hashtags="{ article.get_template_keywords|join:", " }}"-->
+                     <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ root_url }}/{{ article.id }}/"
+                        data-counturl="{{ root_url }}/{{ article.id }}/"
+                        data-lang="en" data-text="{{ article.title|slice:":125" }}" data-via="WintriaNews">Tweet</a> <!--data-count="vertical"-->
+                        <!--
+                     <a href="https://twitter.com/share" class="twitter-share-button"
+                       data-via="WintriaNews" data-hashtags="{ article.get_template_keywords|join:", " }}"
+                             data-count="vertical">
+                        <!--<i class="fui-twitter"></i></a>-->
+                  </div>
+                  <div class="" style="width:10px;margin-left:80px;display:inline-block;">
+
+                     <div class="g-plus" data-action="share" data-annotation="none"
+                          data-height="20" data-href="{{ request.build_absolute_uri }}"></div>  <!--data-annotation="vertical-bubble"-->
+
+                  </div>
+                  <div class="" style="width:10px;margin-left:70px;display:inline-block;">
+                      <script type="IN/Share" data-url="{{ request.build_absolute_uri }}" ></script> <!--data-counter="top"-->
+                  </div>
+                    &emsp;
+                  <a href="{{ article.url }}" style="font-size:15px;font-weight:400;margin-left:80px;"
+                        target="_blank">Video, Gallery, or Article not loading? Click here!</a>
+
+                  <!--<div class="" style="width:10px;margin-left:80px;display:inline-block;">
+                     <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' +
+                     encodeURIComponent(window.location); return false"> <img src="http://www.reddit.com/static/spreddit7.gif"
+                                                                         alt="submit to reddit" border="0" /> </a>
+                  </div>-->
+            <!--
+                <a href="https://twitter.com/share" class="twitter-share-button"
+                    data-via="WintriaNews" data-size="large" data-text="{ request.build_absolute_uri }}"
+                    data-hashtags="{ article.get_keywords_list|join:", " }}">Tweet
+                </a>
+                <div class="fb-like" data-href="{ request.build_absolute_uri }}" data-send="false"
+                     data-layout="button_count" data-width="450" data-show-faces="true"></div>
+-->
+
+            </div>
+                <!--<i><span style="font-size: 11px;">{ article.timestamp|date:"D d, M Y" }}</span>
+                    - From: { article.source.domain }}</i>-->
+                <!--<img src="{ article.thumb_url }}" />-->
+                <!--<br>-->
+                <div style="margin-top:4px;"></div>
+                <iFrame src="{{ article.url }}" width="100%" height="1000px"
+                        scrolling="YES" vspace="10px" hspace="10px"
+                        sandbox="allow-top-navigation" style="border-top:1px solid"></iFrame>
+                <!--<p>{ article.txt|safe }}</p> -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Recomendation bar -->
+{% block scripts %}
+    <script>
+        var TWEET_LIMIT = 140;
+        var tweet_url_len = 22;
+
+        var popup_width = 873;
+        var popup_height = 926;
+        var popup_left = (screen.width/2)-(popup_width/2);
+        var popup_top = (screen.height/2)-(popup_height/2);
+
+        $(document).ready(function() {
+            $(document).on('click', 'a.twitter_popup', function () {
+                newwindow = window.open($(this).attr('href'),'','height='+popup_height+',width='+popup_width+
+                ',top='+popup_top+',left='+popup_left);
+                if (window.focus) { newwindow.focus(); }
+                return false;
+            });
+
+
+        });
+        /*
+        function set_tweet(title, url, tags) {
+            // 3 = url + tags + title
+            // 2 = url + tags
+            // 1 = url
+            title = title.split(' ').subarray(0, 7).join(' ');
+
+            var cur = tweet_url_len + tags.length + title.length;
+            if (cur <= 140) {
+                return [url, title, tags];
+            }
+            cur = url.length + tags.length;
+
+            if (cur <= 140) {
+                return [url, tags];
+                cur = url.length + tags.length;
+            }
+            tags = tags.split(', ').subarray(0, 2).join(', ');
+
+            if (cur <= 140) {
+
+            }
+            cur = url.length;
+
+        }
+
+*/
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
+        if(!d.getElementById(id)){js=d.createElement(s);
+        js.id=id;js.src="//platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    </script>
+
+    <script type="text/javascript">
+       (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/plusone.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+       })();
+    </script>
+
+    <script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+
+    <script src="{% static "js/wintria-single-1.js" %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+

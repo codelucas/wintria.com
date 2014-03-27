@@ -3,6 +3,7 @@
 bin
 dist
 build
+/misc/sphinx-2.0.8-release
 
 # Only exclude the lib directory from our top level. We have other
 # lib directories with useful code, bad naming convention, I know :)

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load article_extras %}
+
+{% block title %} Wintria - Streams {% endblock %}
+
+{% block styles %}
+    <style>
+        h1,h2,h3,h4,strong,span { color:#2980b9; }
+        p { color:#232629;font-size:18px;line-height: 25px;
+            -webkit-font-smoothing:antialiased;-webkit-text-stroke:0.35px; }
+        .how {line-height: 30px;}
+    </style>
+{% endblock %}
+
+{% block sidebar %} <!-- Kill the sidebar --> {% endblock %}
+
+{% block content %}
+<div id="main" class="container clear-top">
+<div class="row-fluid">
+<div class="span12 dynamic_plat">
+	<div class="row spacer"></div>
+	
+	<div class="well well-large">
+		<h2 style="margin-bottom:-10px;margin-top:-8px;"><i class="icon-cogs" style="
+		    margin-right:47px;margin-top:10px;"></i>Streams form rivers of data which inform you about the world</h2>
+		<br>
+		<i>click plus <i class="icon-plus-sign" title="Add to your stream" style=
+			"color:#669533;"></i> to add a stream to your river</i>
+	</div>
+	
+	<div class="well well-large light-well">
+		<ul class="nav nav-pills">
+			<li><a>Sort By:</a></li>
+			{% if sort == "newest" %}
+				<li><a href="{{ rootURL }}/streams/hotness/">hotness</a></li>
+				<li class="active"><a href="{{ rootURL }}/streams/newest/">newest</a></li>
+			{% else %}
+				<li class="active"><a href="{{ rootURL }}/streams/hotness/">hotness</a></li>
+				<li><a href="{{ rootURL }}/streams/newest/">newest</a></li>
+			{% endif %}
+		</ul>	
+		{% for source in sources %}
+			<table class="row-fluid">
+				<tr>
+					<td class="stream-icon-box span1">
+						<div class="span12">
+							<img src="{{ source.logo_url }}" class="img-rounded" style="max-height:80px; width:80px;"/>
+						</div>
+					</td>
+					
+					<td class="offset1 span1 pagination-centered">
+						<div class="span12">
+							{% if source.owned %}
+								<i class="icon-plus-sign owned" name="{{ source.domain }}" title="You already own this" style=
+									"font-size:40px;color:#C2CAB8;"></i>		
+							{% else %}
+								<i class="icon-plus-sign unowned" name="{{ source.domain }}" title="Add to your stream" style=
+									"font-size:40px;color:#669533;"></i>		
+							{% endif %}
+						</div>
+					</td>
+					
+					<td class="span3 pagination-centered">	
+						<div class="span12 stream-details">
+							<strong>Stream hotness:</strong> <i>{{ source.hotness }}</i>
+							<br>
+							<strong>Articles provided:</strong> <i>{{ source.article_set.all|length }}</i>
+						</div>
+					</td>
+					
+					<td class="span4">
+						<div class="span12">
+							<a href="{{ source.url }}" target="_blank"><h2>{{ source.human_name }}</h2></a>
+						</div>
+					</td>
+					
+					<td class="span4">
+						<div class="span12">
+							<p>{{ source.description }}</p>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<hr style="margin-top:12px;opacity:0.25;">
+		{% endfor %}
+		<div class="pagination">
+			<ul>
+                {% with objects=sources %}
+				    {% pagination objects %}
+                {% endwith %}
+			</ul>
+		</div>
+	</div>	
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %} 
+	<script>
+	   var source_count = {{ num_owned_sources }};
+	   
+	   // Adding streams
+	   $(document.body).on('click', '.unowned', function() {
+		  if (source_count < 10) {
+              var domain = $(this).attr('name');
+			  $.post('/api/swapSource/', { domain: domain, intent: "add" },
+					function(response) {
+					  $("i[name='" + domain + "']").css("color", "#C2CAB8");
+					  $("i[name='" + domain + "']").removeClass("unowned");
+					  $("i[name='" + domain + "']").addClass("owned");
+					  $("i[name='" + domain + "']").attr('title', 'You already own this');
+					source_count += 1;
+				}, 'json'
+			  )
+			}
+          else
+              $('#stream-limit-warning-modal-max').modal('show')
+		});	   
+		// Removing streams
+		$(document.body).on('click', '.owned', function() {
+			if (source_count > 1) {
+                var domain = $(this).attr('name');
+				$.post('/api/swapSource/', { domain: domain, intent: "remove" },
+					function(response) {
+						$("i[name='" + domain + "']").css("color", "#669533");
+						$("i[name='" + domain + "']").removeClass("owned");
+					    $("i[name='" + domain + "']").addClass("unowned");
+						$("i[name='" + domain + "']").attr('title', 'Add to your stream');
+						source_count -= 1;
+					}, 'json'
+				)
+			}
+            else
+                $('#stream-limit-warning-modal-min').modal('show')
+		});			
+	</script>
+{% endblock %}

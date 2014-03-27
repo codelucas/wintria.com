@@ -15,7 +15,7 @@ framework.
 import os
 import sys
 
-path = '/home/lucas/www/wintria.com/wintria-env'
+path = '/home/lucas/www/wintria.com/wintria-env/wintria'
 if path not in sys.path:
     sys.path.insert(0, path)
 
@@ -29,8 +29,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wintria.wintria.settings")
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
 
-from django.core.handlers.wsgi import WSGIHandler
-application = WSGIHandler()
+#from django.core.handlers.wsgi import WSGIHandler
+#application = WSGIHandler()
 
-# from django.core.wsgi import get_wsgi_application
-# application = get_wsgi_application()
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()

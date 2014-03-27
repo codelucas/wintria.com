@@ -1,0 +1,173 @@
+/*   CSS GUIDELINES
+ *   When adding a class, id, or tag, please remember to keep it alphabetized. Thank you.
+ * 
+ *   NAMING GUIDELINES
+ *   1) Always separate words with - and not underlines!!!
+*/
+
+.article {overflow: hidden;}
+.articles-background-grayed-out { background: #F0F9FF !important; } /*#FFA142; */
+.mouse-inside-article {background: #F0F9FF !important;} /*FFECEC */
+
+.article-details {line-height: 14px;}
+.article_link { min-height:50px !important; }
+.article.span4{padding:17px;height:170px;}
+.article_thumb { max-height:83px; max-width:83px; }
+.bigdrop.select2-container .select2-results {max-height: 300px;}
+.bigdrop .select2-results {max-height: 300px;}
+.btn:focus { outline:none; }
+.btn-gray-out { background: #9A9A9A !important; }
+.center {text-align: center;}
+.displayed_source, .add_source { background-color:#f8f8f8;
+    border:0px; margin-bottom:0px; }
+.displayed_source:hover, .add_source:hover { background-color:#C1CDCD;
+    border:0px; margin-bottom:0px; }
+.displayed_source, .add_source { cursor: pointer; }
+.icon-remove { color: rgba(255, 66, 66, 0.46);   }
+.nav-tabs > li > a {font-size: 17px;}
+.owned:hover, .unowned:hover { cursor:pointer; }
+.pause-button-box { font-size: 210px; display: none; position: absolute;
+    margin-left: 21%; margin-top: 35%; z-index: 10; }
+.delete-stream-button { cursor: pointer; }
+.sources-list { margin-top:0px;margin-bottom:5px;overflow:hidden;height:40px;padding:0;text-align: center;}
+.selected-streams-list { padding:0;margin-bottom:0;border:0; }
+.sidebar-nav { padding: 0px 0px 0px 0px; }
+.spacer { margin-top: 10px; }
+.stream-in-box { /*width:70px;height:70px;overflow:hidden;background-position:center center;vertical-align:middle;*/margin-right:5px;width:40px;}
+.stream-icon-in-list {height:44px; max-width: 160px; margin:0px 5px 5px 0px;background-color: rgba(179, 180, 180, 1);}
+.toggle-explore {cursor: pointer;}
+.twitter_popup {  }
+.well { background-color:#ffffff;border: 1px solid rgb(227, 227, 227); }
+.well.well-large.article { background-color: #ffffff;height:200px;
+    border: 1px solid rgb(227, 227, 227);padding:10px 10px 10px 10px;}
+
+.well_tag { font-size:20px;color:#3a5a6a; margin-left:5px;background-color: #ffffff; }
+.well_tag:hover { color: #ffffff;background-color:#3a5a6a; }
+.well_image { height:70%;margin-top:4px;overflow:hidden;width:100%;
+        background-color:#F0F9FF;background-position:center center; }
+.well_image:hover {  }
+
+.social_media {display:block;}
+
+.keyword-list{height:20px;overflow:hidden;padding:0;margin-top:10px;margin-bottom:5px;text-align:center;font-weight:200;font-size:16px;}
+
+@media all and (max-width: 1100px) {
+    .social_media {display:none !important;}
+}
+@media all and (max-width: 479px) {
+    .brand {display:none !important;}
+}
+/*.queried_container {margin-top: 60px; }
+@media all and (max-width: 994px) {
+    .queried_container {margin-top:0;}
+}*/
+@media all and (max-width: 994px) {
+    .nav {display:none !important;}
+}
+/* Tags and Attributes */
+/* This sequence makes bootstraps default icons disappear so we can use font-awesome */
+[class^="icon-"], [class*=" icon-"]{ background:none; }
+a:focus { outline:none; }
+hr { margin:1px 0 10px 0; border-bottom-color:#2980b9; }
+
+html, body {
+    height: 100%;
+    margin-top: 28px;
+}
+
+/*
+@media all and (max-width: 1010px) {
+    html, body {
+        height: 100%;
+        margin-top: 0;
+    }
+}*/
+
+#wrap { /*padding-bottom: 90px;*/ }
+#main { overflow:auto;padding-bottom:90px; }
+.footer { position: relative;margin-top:-90px; // negative value of footer height
+    height:90px;clear:both;padding-top:20px;}
+
+/* Twitter typeahead CSS  */
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 240px;
+  /*height: 22px;*/
+  margin-bottom: 0;
+  padding: 8px 12px;
+  font-size: 24px;
+  line-height: 30px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+
+@media all and (max-width: 783px) {
+    .typeahead,
+    .tt-query,
+    .tt-hint {
+      width: 240px;
+      /*height: 22px;*/
+      margin-bottom: 0;
+      padding: 8px 12px;
+      font-size: 24px;
+      line-height: 30px;
+      border: 2px solid #ccc;
+      -webkit-border-radius: 8px;
+         -moz-border-radius: 8px;
+              border-radius: 8px;
+      outline: none;
+    }
+    #main_query_btn {
+        height: 41px;
+        max-resolution: 0;
+    }
+}
+
+.typeahead {
+  background-color: #fff;
+}
+.typeahead:focus {
+  /*border: 2px solid #0097cf;*/
+}
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.tt-hint {
+  color: #999
+}
+.tt-dropdown-menu {
+  width: 350px;
+  margin-top: 12px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 20px;
+  line-height: 24px;
+  /*font-weight: 200;
+  font-family: "Lato", sans-serif;*/
+}
+.tt-suggestion.tt-is-under-cursor {
+  color: #ffffff;
+  background-color: #4EB8E0;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+
+

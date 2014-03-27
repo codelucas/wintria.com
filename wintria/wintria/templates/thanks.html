@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} Thanks! {% endblock %}
+
+{% block styles %}
+    <style>
+        h1,h2,h3,h4,strong,span { color:#2980b9; }
+        p { color:#232629;font-size:18px;line-height: 25px;-webkit-font-smoothing:antialiased;-webkit-text-stroke:0.35px; }
+        .how {line-height: 30px;}
+    </style>
+{% endblock %}
+
+{% block content %}
+<div id="main" class="container clear-top">
+    <div class="row-fluid" style="">
+        <div class="span12 dynamic_plat" style="font-weight: 300;">
+            <div class="row spacer"></div>
+            <div class="well well-large">
+                <h3>Thanks for your interest & feedback! We will <i>actually</i> read it!</h3>
+                <br>
+                <p>
+                    Like what you see so far?
+                    <br>
+                    <br>
+                    Go share it with your friends!
+                    <br>
+                    <a href="https://facebook.com">facebook</a>
+                    <br>
+                    <a href="http://twitter.com">twitter</a>
+                    <br>
+                    <a href="http://reddit.com">reddit</a>
+
+                    <br>
+                    <br>
+                    Or... <a href="{{ root_url }}">Back to searching!</a>
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
