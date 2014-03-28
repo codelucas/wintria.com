@@ -1,0 +1,6 @@
+# Sphinx will generate indices within this directory.
+# Those indices are on the .gitignore for obvious reasons:
+# (They are user specific and way to large in size).
+
+# This file is just to placehold the directory so it
+# stays in the repository.

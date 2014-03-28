@@ -46,7 +46,8 @@ def purge_old():
     count = 0
 
     # outdated = article.objects.filter(timestamp__range=[epoch, two_days_ago])
-    # for a in outdated: # Delete all articles over 3 days old # RE-ENABLE This later, when we have more articles
+    # for a in outdated: # Delete all articles over 3 days old
+    # RE-ENABLE This later, when we have more articles
     #    a.delete()
     #    count += 1
 

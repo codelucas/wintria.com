@@ -44,7 +44,7 @@ class Command(BaseCommand):
         new_datum = convert_to_datum(trends, tag_all=False) # not in string form
 
         prefetch_file = 'prefetch.json'
-        target_url = PROJECT_ROOT + 'wintria/wintria/autocomplete_static/autocomplete/' + prefetch_file
+        target_url = PROJECT_ROOT + 'wintria/wintria/templates/static/autocomplete/' + prefetch_file
         try:
             f = codecs.open(target_url, 'r+', encoding='utf-8')
         except IOError, e:

@@ -1,0 +1,10 @@
+# */55 * * * * /home/wintrialucas/webapps/windjango/Wintria/scripts/safe_index.sh >> ~/webapps/windjango/Wintria/logs/searchd_log.txt
+# */55 * * * * indexer Article_article --rotate --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
+
+*/1 * * * * /bin/sh ~/webapps/windjango/Wintria/scripts/unpack.sh >> ~/webapps/windjango/Wintria/logs/unpack.log 2>&1
+# -- don't need the below:
+*/25 * * * * /bin/sh ~/webapps/windjango/Wintria/scripts/check_sphinx.sh >> ~/webapps/windjango/Wintria/logs/searchd_log.txt
+0 */4 * * * /bin/sh ~/webapps/windjango/Wintria/scripts/push_trending.sh >> ~/webapps/windjango/Wintria/logs/push_trending.log 2>&1
+
+@reboot searchd --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
+@reboot indexer Article_article --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf

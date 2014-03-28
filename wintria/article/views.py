@@ -4,7 +4,7 @@ import json
 from django.http import HttpResponse, Http404
 from django.db.utils import IntegrityError
 
-from lib.io import (query_to_articles, articles_to_sources,
+from wintria.lib.io import (query_to_articles, articles_to_sources,
                             articles_to_related_keys)
 from wintria.article.models import Article
 from wintria.article.templatetags.article_extras import jsonify

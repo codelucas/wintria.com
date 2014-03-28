@@ -1,30 +1,26 @@
 *.pyc
 
+# Sphinx indices
+indices/Article_article.s*
+
+# 1M Articles cached for kick starting the app.
+# I want to include this in the future though.
+wintria_2013_1M_articles.tar.gz
+
+# Https key
+*.pem
+
+# Autocomplete json files
+autocomplete/
+
 bin
 dist
 build
-/misc/sphinx-2.0.8-release
 
-# Only exclude the lib directory from our top level. We have other
-# lib directories with useful code, bad naming convention, I know :)
-/lib
-
-### hide our application settings ###
 settings.py
 
-### pycharm stuff
+### IDE bullshit
 .idea
 .DS_Store
 
-### some of my logs are badly named ###
-*.log
-*log.txt
 
-### hide useless data ###
-apache2
-*.pem
-/Wintria/Wintria/autocomplete_static/autocomplete/*
-/Wintria/Wintria/logo_static/logobank/*
-/Wintria/Wintria/logo_static/logo_thumbs/*
-/Wintria/misc/sphinx/sphinx_indices/*
-/Wintria/misc/Packages

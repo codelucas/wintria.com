@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 LOCKFILE=/tmp/unpack_lock.txt
 if [ -e ${LOCKFILE} ] && kill -0 `cat ${LOCKFILE}`; then
     echo "UnpackArticles.py already running"

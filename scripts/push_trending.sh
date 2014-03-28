@@ -17,5 +17,3 @@ echo $$ > ${LOCKFILE}
 cp /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria/wintria/autocomplete_static/autocomplete/prefetch.json /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria/wintria/templates/static/autocomplete/prefetch.json
 
 rm -f ${LOCKFILE}
-
-

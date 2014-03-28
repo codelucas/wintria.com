@@ -19,6 +19,10 @@ class Source(models.Model):
     description = models.CharField("Description", max_length=1000, default=NO_DESC)
     # hotness = models.FloatField("Hotness", default=0, editable=False)
 
+    class Meta:
+        db_table = 'Article_source'
+        verbose_name_plural = "Sources"
+
     def thumbnail_key(self):
         return base64.urlsafe_b64encode(hashlib.md5(self.domain).digest())
 
@@ -46,8 +50,6 @@ class Source(models.Model):
     def __unicode__(self):
         return self.domain
 
-    class Meta:
-        verbose_name_plural = "Sources"
 
 class Article(models.Model):
     url = models.URLField("Origin URL", unique=True)
@@ -60,6 +62,9 @@ class Article(models.Model):
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
     click_count = models.IntegerField("Clicked Count", default=1, editable=False)
     thumb_url = models.URLField("Thumbnail url") # Any non-url strings will become u'None'
+
+    class Meta:
+        db_table = 'Article_article'
 
     def __unicode__(self):
         return self.title[:100]
@@ -103,13 +108,15 @@ class Article(models.Model):
         return self.keywords.split(u'@@')[:limit]
 
     def get_template_keywords(self, limit=3):
-        keys = [ ''.join(k.split()) for k in self.keywords.split(u'@@') ]
+        keys = [''.join(k.split()) for k in self.keywords.split(u'@@')]
         return keys[:limit]
 
+    # SphinxSearch([index=<string>, weight=[<int>,], mode=<string>])
     search = SphinxSearch(
-        weights = { # individual field weighting, this is optional
+        index='Article_article',
+        weights={
             'title': 100,
             'txt': 90,
             'keywords': 100,
-        }
+        },
     )

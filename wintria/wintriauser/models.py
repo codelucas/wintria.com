@@ -8,6 +8,9 @@ class WintriaUser(models.Model):
     feedback = models.CharField(max_length=2000, blank=True,
                                 default="None")
 
+    class Meta:
+        db_table = 'WintriaUser_wintriauser'
+
     def __unicode__(self):
         return self.email[:100]
 
