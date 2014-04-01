@@ -63,7 +63,7 @@ def search(request):
 
     articles = query_to_articles(query)
     related_keys = articles_to_related_keys(articles)
-    sources = articles_to_sources(articles)[:20]
+    sources = articles_to_sources(articles)[:10]
 
     return render_with_context(request, 'search.html', cookies=[ (QUERY_COOKIE, query) ],
                                kwargs={'cur_articles' : articles, 'cur_sources' : sources,

@@ -1,10 +1,9 @@
+0 0 * * * /usr/local/bin/indexer Article_article --rotate --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf >> /home/lucas/logs/wintria.com/index_rotate.log
+*/55 * * * * /bin/sh /home/lucas/www/wintria.com/wintria-env/wintria/scripts/unpack.sh >> /home/lucas/logs/wintria.com/unpack_articles.log 2>&1
+0 */12 * * * /bin/sh /home/lucas/www/wintria.com/wintria-env/wintria/scripts/push_trending.sh >> /home/lucas/logs/wintria.com/push_trending.log 2>&1
+
+# Instead, we set searchd (Sphinx Search) to kickstart on load in supervisord
+# -------- #
+# @reboot searchd --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
+# @reboot indexer Article_article --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
 # */55 * * * * /home/wintrialucas/webapps/windjango/Wintria/scripts/safe_index.sh >> ~/webapps/windjango/Wintria/logs/searchd_log.txt
-# */55 * * * * indexer Article_article --rotate --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
-
-*/1 * * * * /bin/sh ~/webapps/windjango/Wintria/scripts/unpack.sh >> ~/webapps/windjango/Wintria/logs/unpack.log 2>&1
-# -- don't need the below:
-*/25 * * * * /bin/sh ~/webapps/windjango/Wintria/scripts/check_sphinx.sh >> ~/webapps/windjango/Wintria/logs/searchd_log.txt
-0 */4 * * * /bin/sh ~/webapps/windjango/Wintria/scripts/push_trending.sh >> ~/webapps/windjango/Wintria/logs/push_trending.log 2>&1
-
-@reboot searchd --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf
-@reboot indexer Article_article --config /home/lucas/www/wintria.com/wintria-env/wintria/configs/sphinx.conf

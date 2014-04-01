@@ -32,7 +32,7 @@ def query_main(request):
                 source_obj.append({"id":SOURCE_DELIM.join([s.domain,
                                                            s.description,
                                                            s.get_small_thumb_url()])})
-            source_obj = source_obj[:20]
+            source_obj = source_obj[:10]
             source_json = json.dumps(source_obj)
             updated_news = jsonify(articles)
 

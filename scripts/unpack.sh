@@ -10,9 +10,7 @@ fi
 trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
 echo $$ > ${LOCKFILE}
 
-# do stuff
-(cd /home/lucas/www/wintria.com/wintria-env/wintria.com/wintria; /usr/local/bin/python2.7 manage.py unpack_articles);
+(cd /home/lucas/www/wintria.com/wintria-env/wintria/wintria; \
+    /home/lucas/www/wintria.com/wintria-env/bin/python2.7 manage.py unpack_articles);
 
 rm -f ${LOCKFILE}
-
-

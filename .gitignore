@@ -12,6 +12,7 @@ wintria_2013_1M_articles.tar.gz
 
 # Autocomplete json files
 autocomplete/
+logobank/
 
 bin
 dist
@@ -22,5 +23,3 @@ settings.py
 ### IDE bullshit
 .idea
 .DS_Store
-
-

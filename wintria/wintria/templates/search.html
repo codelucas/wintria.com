@@ -24,9 +24,9 @@
 		<ul class="nav nav-list">
         <div class="row-fluid">
             <div class="span12 selected-streams-list">
-              <!-- FOR THE DISPLAYED Sources, THE NAME ATTRIBUTE IS THE UNIQUE Sources NAME FOR AJAX KEY-VALUE PURPOSES. -->
+                <!-- FOR THE DISPLAYED Sources, THE NAME ATTRIBUTE IS THE UNIQUE 
+                Sources NAME FOR AJAX KEY-VALUE PURPOSES. -->
               <div class="keyword-list">
-
 
               </div>
 
@@ -128,16 +128,6 @@
 </div>
 </div>
 
-<!--<div id="stream-limit-warning-modal-max" class="modal hide fade">
-    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h3>Stream Limit</h3></div>
-    <div class="modal-body"><p>Sorry, but we can only support up to 10 streams at one time!</p></div>
-    <div class="modal-footer"><a href="#" class="close" data-dismiss="modal" class="btn">Close</a></div>
-</div>
-<div id="stream-limit-warning-modal-min" class="modal hide fade">
-    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h3>Stream Limit</h3></div>
-    <div class="modal-body"><p>You need at least one source!</p></div>
-    <div class="modal-footer"><a href="#" class="close" data-dismiss="modal" class="btn">Close</a></div>
-</div>-->
 {% endblock %}
 
 {% block scripts %}
@@ -149,9 +139,17 @@
          var new_desc = description.slice(0, 200);
          if (description.length > 300) { new_desc += "..."; }
 
-         return '<img id="' + domain_id + '" class="stream-in-box" title="' + domain_id + ' -- ' +
-                    new_desc + '" src="' + logo_url + '" rel="tooltip" ' +
-                    'data-placement="bottom" data-container="body" onerror="this.src=\' '+root_url+'/static/images/no_source_logo.png\'" />';
+         return '<a target="_blank" href="http://' + domain_id + '"><span id="' + domain_id + 
+             '" class="stream-in-box" title="' + new_desc + '" rel="tooltip" ' + 
+             'data-placement="bottom" style="font-weight:200;" data-container="body">' + 
+             domain_id + '</span></a>';
+
+        /*
+         return '<img id="' + domain_id + '" class="stream-in-box" title="' + 
+             domain_id + ' -- ' + new_desc + '" src="' + logo_url + '" rel="tooltip" ' +
+             'data-placement="bottom" data-container="body" onerror="this.src=\' ' + root_url + 
+             '/static/images/no_source_logo.png\'" />';
+         */
       }
 
       function format_key_list(key) {

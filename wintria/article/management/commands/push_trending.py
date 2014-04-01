@@ -1,6 +1,6 @@
 """
 """
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from wintria.article.models import Article
 from wintria.lib.io import convert_to_datum
@@ -12,12 +12,13 @@ import MySQLdb as Database
 import codecs
 import json
 
+
 class Command(BaseCommand):
     help = 'Gathers trending topics from our own data + ' \
            'Google\'s data, pushes up to .json static files'
 
     def handle(self, *args, **options):
-        filterwarnings('ignore', category = Database.Warning)
+        filterwarnings('ignore', category=Database.Warning)
 
         dd = {}
         articles = Article.objects.order_by('-timestamp')[:300]
@@ -29,22 +30,26 @@ class Command(BaseCommand):
                 else:
                     dd[k] = 1
 
-        common_keys = sorted(dd.items(), key=lambda x:x[1], reverse=True)[:150]
+        common_keys = sorted(dd.items(), key=lambda x: x[1],
+                             reverse=True)[:150]
         g_trends = goog_trends()
 
         # factor length in, many 'bad' short keys, like AP, U.S., etc.
-        common_keys = sorted(common_keys, key=lambda x:len(x[0]), reverse=True)[:20]
+        common_keys = sorted(common_keys, key=lambda x: len(x[0]),
+                             reverse=True)[:20]
 
         # uniquify the terms between our terms and googles, we dont want dupes
-        g_lower = [ t.lower() for t in g_trends ]
-        our_trends = [ tup[0] for tup in common_keys if tup[0].lower() not in g_lower ]
+        # g_lower = [t.lower() for t in g_trends]
+        # our_trends = [tup[0] for tup in common_keys if
+        #                tup[0].lower() not in g_lower]
 
-        trends = g_trends # + our_trends
+        trends = g_trends  # + our_trends
 
-        new_datum = convert_to_datum(trends, tag_all=False) # not in string form
+        new_datum = convert_to_datum(trends, tag_all=False)
 
         prefetch_file = 'prefetch.json'
-        target_url = PROJECT_ROOT + 'wintria/wintria/templates/static/autocomplete/' + prefetch_file
+        target_url = PROJECT_ROOT + \
+            'wintria/wintria/templates/static/autocomplete/' + prefetch_file
         try:
             f = codecs.open(target_url, 'r+', encoding='utf-8')
         except IOError, e:
@@ -58,8 +63,9 @@ class Command(BaseCommand):
 
         try:
             old_datum = json.loads(raw_dat)
-            new_vals =  [ dic_d['value'] for dic_d in new_datum ]
-            old_datum = [ dat for dat in old_datum if dat['value'] not in new_vals ]
+            new_vals = [dic_d['value'] for dic_d in new_datum]
+            old_datum = [dat for dat in old_datum if dat['value']
+                         not in new_vals]
         except Exception, e:
             print 'empty file or corrupt format', str(e)
             old_datum = []
@@ -67,6 +73,7 @@ class Command(BaseCommand):
         datum = new_datum + old_datum
         uniq_terms = {}
         uniq_datum = []
+
         for d in datum:
             if d['value'] not in uniq_terms:
                 uniq_terms[d['value']] = True

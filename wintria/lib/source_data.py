@@ -96,7 +96,7 @@ def get_soup(url):
     return soup
 
 def save_to_disk(url, domain):
-    try: urllib.urlretrieve(url, PROJECT_ROOT + 'wintria/wintria/logo_static/logobank/' +
+    try: urllib.urlretrieve(url, PROJECT_ROOT + 'wintria/wintria/templates/static/logobank/' +
                                  domain + '.png')
     except Exception, e:
         print str(e), 'error downloading', domain, '\'s logo'

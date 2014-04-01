@@ -1,18 +1,17 @@
 """
 Wintria.com listens on the dock/ directory for new 'Saved_Articles.txt' files
-to be sent over via ssl from our crawlers (or this local machine if we configure it so).
-It then opens the file, parses it, and saves the article data in that file into
-the MySQL database.
+to be sent over via ssl from our crawlers (or this local machine if we
+configure it so). It then opens the file, parses it, and saves the article
+data in that file into the MySQL database.
 
 We do it this way instead of directly making a database connection because
 I just wanted to use django's ORM :).
 """
-import os
 import codecs
+import json
 import re
 import time
 import pytz
-import gc
 
 from datetime import datetime, timedelta
 from warnings import filterwarnings
@@ -22,17 +21,11 @@ from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
 from wintria.article.models import Article, Source
-from wintria.lib.source_data import get_desc, get_soup, save_logo, push_s3
-from wintria.wintria.settings import PROJECT_ROOT
+from wintria.lib.source_data import get_desc, get_soup
 
 MAX_ARCHIVE_COUNT = 1000000
-INPUT_FILE = 'Saved_Articles.txt'
+input_fn = '/home/lucas/labs/news_dump/articles.json'
 
-INPUT_NAME = PROJECT_ROOT + 'wintria/dock/' + INPUT_FILE
-LOC_DIR = PROJECT_ROOT + 'wintria/dock/'
-
-PROPERTY_DELIMITER = u";;"
-ARTICLE_DELIMITER = u"\$\$"
 
 def purge_old():
     now = datetime.now()
@@ -51,12 +44,13 @@ def purge_old():
     #    a.delete()
     #    count += 1
 
-    overflown = Article.objects.order_by('-pk')[MAX_ARCHIVE_COUNT:]
+    overflown = Article.objects.order_by('-timestamp')[MAX_ARCHIVE_COUNT:]
     for a in overflown:
         a.delete()
         count += 1
     print count, "Articles have been deleted from the DB to meet the", \
         MAX_ARCHIVE_COUNT, "article Cap"
+
 
 def open_delimited(filename, delimiter, chunksize=1024, *args, **kwargs):
     with codecs.open(filename, *args, **kwargs) as infile:
@@ -69,35 +63,30 @@ def open_delimited(filename, delimiter, chunksize=1024, *args, **kwargs):
         if remainder:
             yield remainder
 
+
 class Command(BaseCommand):
-    help = 'Manages incoming Saved_Articles.txt files'
+    help = 'Opens up .json article files and sends the data to our db'
 
     def handle(self, *args, **options):
         filterwarnings('ignore', category=Database.Warning)
         ts = time.time()
         self.stdout.write('unpacking files and saving to db... ' +
-                          datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+                          datetime.fromtimestamp(ts).strftime(
+                              '%Y-%m-%d %H:%M:%S'))
+        total = 0
+        count = 0
+        dups = 0
 
-        total, count, dups = 0, 0, 0
-        files = os.listdir(LOC_DIR)
+        articles_file = codecs.open(input_fn, 'r', 'utf8')
+        articles_string = articles_file.read()
+        articles_file.close()
+        articles_json = json.loads(articles_string)
 
-        if INPUT_FILE not in files:
-            self.stdout.write(INPUT_FILE + ' has not arrived yet!')
-            return
-
-        # Parses line by line
-        for a in open_delimited(INPUT_NAME, ARTICLE_DELIMITER, 1024, encoding='utf-8'):
+        for article_dict in articles_json:
             total += 1
-
-            dat = a.split(PROPERTY_DELIMITER)
-            if len(dat) != 6:
-                self.stdout.write('length not 6')
-                continue
-
             # If a source matches the article, sync em.
             # If not, make a new source and sync em.
-            domain = urlparse(dat[0]).netloc
-
+            domain = urlparse(article_dict['url']).netloc
             try:
                 s = Source.objects.get(domain=domain)
             except Source.DoesNotExist:
@@ -108,50 +97,48 @@ class Command(BaseCommand):
 
                 if len(domain.split('.')) >= 2:
                     try:
-                        url = 'http://'+domain
+                        url = 'http://' + domain
                         soup = get_soup(url)
                         desc = get_desc(soup)
-                        save_logo(soup, domain)
-
+                        # save_logo(soup, domain)
                         s = Source(
-                                domain=domain,
-                                description=desc
-                            ).save()
-
-                        push_s3(s)
-
+                            domain=domain,
+                            description=desc
+                        ).save()
+                        # push_s3(s)
                     except IntegrityError, e:
                         print "Integrity error on source", str(e)
                     except Exception, e:
-                        print str(e)
+                        print "Save source err", str(e)
                 else:
                     print "%s domain isn't valid" % domain
 
             if s:
                 try:
-                    _article=Article(
-                        url=dat[0],
-                        title=dat[1],
-                        txt=dat[2],
-                        keywords=dat[3],
+                    _article = Article(
+                        url=article_dict['url'],
+                        title=article_dict['title'],
+                        txt=article_dict['text'],
+                        keywords=article_dict['keywords'],
                         source=s,
-                        thumb_url=dat[4], # Any non-url strings will become u'None'
-                        has_img=int(dat[5])
+                        thumb_url=article_dict['img'],
+                        has_img=0
                     )
-                    # Canon form
-                    url_obj=urlparse(dat[0]) # dat[0] is the url
+
+                    url_obj = urlparse(article_dict['url'])
                     domain, scheme = url_obj.netloc, url_obj.scheme
+
                     if domain.startswith(u'www.'):
                         domain = domain[4:]
                     if scheme == u'https':
                         scheme = u'http'
                     f_url = scheme + u'://' + domain + url_obj.path
 
-                    # Make sure incoming article's canon form is not already present
+                    # Make sure article's canon form is not already present
                     # (without www. or https://)
                     # If we get a non existing error, we are good to go!
                     try:
-                        _dup = Article.objects.get(url=f_url)
+                        __ = Article.objects.get(url=f_url)
                     except Article.DoesNotExist:
                         pass
                     except Exception, e:
@@ -159,29 +146,27 @@ class Command(BaseCommand):
                         continue
                     else:
                         dups += 1
-                        continue # skip saving!
+                        continue  # skip saving!
 
                     _article.save()
                     count += 1
 
-                except IntegrityError, e: # catches the URL - Unique setting.
+                except IntegrityError, e:  # catches the URL - Unique setting.
                     if e.args[0] == 1062:
                         dups += 1
                 except Exception, e:
-                    print 'Regular ex: ', str(e)
+                    print 'Save article err:', str(e)
                     pass
             else:
-                print 'no source!?'
+                print 'Source + Article failed to save'
                 try:
-                    'for ', dat[0]
-                except Exception,e:
-                    print '%s failed to even print dat[0]' % str(e)
+                    print 'for', article_dict['url']
+                except Exception, e:
+                    print '%s failed to print url' % str(e)
 
-            # gc.collect()
-
-        os.remove(INPUT_NAME)
-        self.stdout.write(str(count) + ' files successfully unpacked and saved and we had '
-                          + str(dups) + ' duplicate articles and we have ' + str(total) +
-                          ' total incoming articles ' +
-                          datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+        self.stdout.write(str(count) + ' files unpacked and saved and we had '
+                          + str(dups) + ' duplicate articles and we have ' +
+                          str(total) + ' total incoming articles ' +
+                          datetime.fromtimestamp(ts).
+                          strftime('%Y-%m-%d %H:%M:%S'))
         purge_old()
