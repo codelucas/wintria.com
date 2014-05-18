@@ -9,8 +9,7 @@ from wintria.wintria.settings import PROJECT_ROOT
 
 from warnings import filterwarnings
 import MySQLdb as Database
-import codecs
-import json
+
 
 class Command(BaseCommand):
     help = 'Get the 10 most recent article\'s titles and id\'s \
@@ -20,4 +19,5 @@ class Command(BaseCommand):
         filterwarnings('ignore', category = Database.Warning)
         articles = Article.objects.order_by('-timestamp')[:10]
         for a in articles:
-            print 'id:', a.id, 'title:', a.title, 'date:', a.timestamp
+            print 'id:', a.id, 'title:', a.title, 'date:', \
+                a.timestamp, 'keywords:', a.keywords

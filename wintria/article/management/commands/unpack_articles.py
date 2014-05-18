@@ -119,7 +119,8 @@ class Command(BaseCommand):
                         url=article_dict['url'],
                         title=article_dict['title'],
                         txt=article_dict['text'],
-                        keywords=article_dict['keywords'],
+                        # shitty solution back when i was retarded
+                        keywords=u'@@'.join(article_dict['keywords']),
                         source=s,
                         thumb_url=article_dict['img'],
                         has_img=0
